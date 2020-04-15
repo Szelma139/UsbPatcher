@@ -1,12 +1,37 @@
-#ifndef DRIVEWATCHER_H
+﻿#ifndef DRIVEWATCHER_H
 #define DRIVEWATCHER_H
 
-#include <QObject>
+#include <QThread>
+#include <QList>
+#include <QStorageInfo>
 
-class DriveWatcher
+class QFileSystemWatcher;
+class DriveWatcher: public QThread
 {
+    Q_OBJECT
 public:
-    DriveWatcher();
+    DriveWatcher(QObject * parent = nullptr);
+
+    QFileSystemWatcher * usbDirWatcher;
+
+private:
+    QList<QStorageInfo> lastKnownListOfDrives;
+
+
+private slots:
+    void spottedChangesOnDrive(QString folder);
+    void findNewDrive();
+
+private:
+    QByteArray getLastKnownElement(QList<QStorageInfo>info);
+
+
+protected:
+    void run();
+
+signals:
+    void foundNewUsbDevice(QString);
+
 };
 
 #endif // DRIVEWATCHER_H
