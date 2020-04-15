@@ -18,10 +18,14 @@ DEFINES += QT_DEPRECATED_WARNINGS QT_DISABLE_DEPRECATED_BEFORE
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        drivewatcher.cpp \
+        filecopier.cpp \
         main.cpp \
         mainwindow.cpp \
+        mountingpoint.cpp \
         usbdevicediscover.cpp \
-        usbreader.cpp
+        usbreader.cpp \
+        utilitytools.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -36,9 +40,13 @@ INCLUDEPATH += $$PWD/../Wideo/include
 DEPENDPATH += $$PWD/../Wideo/include
 
 HEADERS += \
+    drivewatcher.h \
+    filecopier.h \
     mainwindow.h \
+    mountingpoint.h \
     usbdevicediscover.h \
-    usbreader.h
+    usbreader.h \
+    utilitytools.h
 
 FORMS += \
     mainwindow.ui
