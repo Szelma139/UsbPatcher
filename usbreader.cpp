@@ -128,6 +128,12 @@ void UsbReader::findMountingPoint(QString partitionName)
     qDebug()<<"M" << fullMountingPoint;
 
 
+
+
+
+
+
+
     while (fullMountingPoint.contains("\\"))
     {
         fullMountingPoint=fullMountingPoint.replace("\\040","\ ");
@@ -159,6 +165,7 @@ if (file2.exists()) qDebug()<<"Wszystko w porzadku. Plik istnieje";
 
     if (QFile::exists(destFilePath)){
         QFile::remove(destFilePath);
+        qDebug()<< "Usuwam plik";
     }
        if (QFile::copy(sourcePath, destFilePath))
            qDebug()<<"!!!!!!!!!!!!!!!!!!!!!!!SUKCES!!!!!!!!!!!!!";
