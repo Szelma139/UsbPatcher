@@ -50,9 +50,10 @@ void DriveWatcher::findNewDrive()
             qDebug()<<QString("Found new device name %1").
                       arg(newDevice);
 
-                emit foundNewUsbDev(newDevice);
+            emit foundNewUsbDev(newDevice);
         }
 
 
 
+    }
 }

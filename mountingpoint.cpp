@@ -9,13 +9,13 @@ MountingPoint::MountingPoint()
 }
 
 
-void MountingPoint::getMountPointLineFroFil(QString partitionName)
+QString MountingPoint::getProcessedMountingPoint(QString partitionName)
 {
+        QString mountPointNewLine;
 
     QFile file("/proc/self/mounts");
 
-        if (!file.exists())
-            return;
+        if (file.exists())
 
         QString fullMountingPoint;
     if(file.open(QIODevice::ReadOnly))
@@ -34,7 +34,7 @@ void MountingPoint::getMountPointLineFroFil(QString partitionName)
 
             if (line.contains(partitionName))
             {
-                fullMountingPoint = line;
+                mountPointNewLine = line;
                 break;
             }
 
@@ -42,7 +42,7 @@ void MountingPoint::getMountPointLineFroFil(QString partitionName)
             number++;
         }
     }
-    QString mountedPath = returnMountingPath(fullMountingPoint);
+    QString mountedPath = returnMountingPath(mountPointNewLine);
 
 }
 

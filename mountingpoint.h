@@ -12,7 +12,7 @@ public:
 private:
 
     QString returnMountingPath(QString mountPointLine );
-    void getMountPointLineFroFil(QString partitionName);
+    QString getProcessedMountingPoint(QString partitionName);
 
 ;
 

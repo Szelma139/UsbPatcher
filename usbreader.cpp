@@ -165,11 +165,9 @@ if (file2.exists()) qDebug()<<"Wszystko w porzadku. Plik istnieje";
 
     if (QFile::exists(destFilePath)){
         QFile::remove(destFilePath);
-        qDebug()<< "Usuwam plik";
     }
        if (QFile::copy(sourcePath, destFilePath))
            qDebug()<<"!!!!!!!!!!!!!!!!!!!!!!!SUKCES!!!!!!!!!!!!!";
-       else qDebug()<<"DUPA";
 
 
 
