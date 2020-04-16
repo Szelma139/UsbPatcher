@@ -2,13 +2,24 @@
 
 #include <usbreader.h>
 #include <copierthread.h>
+#include <QDebug>
 
 MainProgram::MainProgram(QObject * parent)
 {
     usbReader= new UsbReader(this);
     folderCopier = new CopierThread(this);
-    connect(usbReader,SIGNAL(returnPath(QString)),this,SLOT(getPathToFiles(QString)));
-    connect(folderCopier,SIGNAL(minimumChanged()), w,)
+
+    connect(usbReader, &UsbReader::returnPath,
+            this, &MainProgram::getPathToFiles);
+
+    connect(folderCopier, &CopierThread::minimumChanged,
+            &windowProgress, &MainWindow::setProgressBarMin, Qt::QueuedConnection);
+
+    connect(folderCopier, &CopierThread::maximumChanged,
+            &windowProgress, &MainWindow::setProgressBarMax, Qt::QueuedConnection);
+
+    connect(folderCopier, &CopierThread::progressChanged,
+            &windowProgress, &MainWindow::setProgressBarValue, Qt::QueuedConnection);
 }
 
 QString MainProgram::getFolderToCopy() const
@@ -23,7 +34,7 @@ void MainProgram::setFolderToCopy(const QString &value)
 
 void MainProgram::showWindow()
 {
-    windowProgress->show();
+    windowProgress.show();
 }
 
 void MainProgram::getPathToFiles(QString mountingPoint)
@@ -31,6 +42,12 @@ void MainProgram::getPathToFiles(QString mountingPoint)
     path = mountingPoint;
     this->showWindow();
 
+    if (!QDir(destinationFolder).exists())
+        return;
+
+    QString sourceFolder = path + QDir::separator()+folderToCopy;
+
+    folderCopier->copy(sourceFolder, destinationFolder);
 }
 
 

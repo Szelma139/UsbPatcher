@@ -36,7 +36,7 @@ private slots:
 
 public slots:
 
-    void setProgressBarValue(qint64 value);
+    void setProgressBarValue(double value);
     void setProgressBarMin(double min);
     void setProgressBarMax(double max);
 };

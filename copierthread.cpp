@@ -4,6 +4,8 @@
 #include <QDir>
 #include <QFileInfo>
 
+#include <QDebug>
+
 CopierThread::CopierThread(QObject * parent)
     :QThread()
 {
@@ -28,33 +30,49 @@ double CopierThread::progress() const
 void CopierThread::copy(QString &sourceFolder, QString &destFolder)
 {
 
+
     mSourceFolder = sourceFolder;
     mDestFolder = destFolder;
     mFileList = getFolderContents(sourceFolder);
+
+
+    for (QString el:mFileList)
+    {
+        qDebug()<<"File x" <<el;
+    }
+
     mMinimum = 0;
     mMaximum = fileSize(sourceFolder, mFileList);
     emit minimumChanged(mMinimum);
-    emit maximumChanged(mMaximum);
+    //emit maximumChanged(mMaximum);
 
-    if(!isRunning())
+/*if(!isRunning())
+    {
+
         start();
 
+    }
+*/
 }
 
 QStringList CopierThread::getFolderContents(QString &sourceFolder)
 {
     QStringList fileList;
+    qDebug()<<"Czekaj basiu na mnie";
         std::function<bool(const QString&, const QString&)> folderContents;
         folderContents = [&](const QString &sourceFolder, const QString &destFolder)->bool {
             QDir sourceDir(sourceFolder);
-
+            qDebug()<<"sourceDir"<<sourceFolder;
             if (!sourceDir.exists())
                 return false;
 
             foreach (const QFileInfo &fileInfo, sourceDir.entryInfoList(QDir::NoDotAndDotDot | QDir::NoSymLinks
                                                                         | QDir::Dirs | QDir::Files)) {
                 QString srcFilePath = fileInfo.filePath();
+                qDebug()<<"sourceFilePath"<<srcFilePath;
                 QString dstFilePath = destFolder.isEmpty() ? fileInfo.fileName() : destFolder + QDir::separator() + fileInfo.fileName();
+                qDebug()<<"dstFilePath"<<dstFilePath;
+
                 if (fileInfo.isDir()) {
                     if (!folderContents(srcFilePath, dstFilePath))
                         return false;
@@ -84,7 +102,7 @@ qint64 CopierThread::fileSize( QString &sourceFolder,  QStringList &fileList)
 
 void CopierThread::copyFiles()
 {
-    qint64 bufferSize = 4194304;
+        qint64 bufferSize = 4194304;
         QByteArray buffer;
         mProgress = 0;
         emit progressChanged(mProgress);
@@ -92,6 +110,8 @@ void CopierThread::copyFiles()
         foreach (const QString &fileName, mFileList) {
             QString srcFilePath = mSourceFolder + QDir::separator() + fileName;
             QString dstFilePath = mDestFolder + QDir::separator() + fileName;
+            qDebug()<<"SourceFilePath"<<srcFilePath;
+            qDebug()<<"DestFilePath"<<dstFilePath;
             QFile srcFile(srcFilePath);
             QFile dstFile(dstFilePath);
 

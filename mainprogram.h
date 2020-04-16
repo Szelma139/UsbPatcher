@@ -24,16 +24,18 @@ public:
 
    private:
     void showWindow();
+
+
+private slots:
     void getPathToFiles(QString);
 
 
-
-
 private:
-    MainWindow * windowProgress;
+    MainWindow windowProgress;
 
     QString path;
     QString folderToCopy = "duzyfolder";
+    QString destinationFolder = "/opt/pliki/pliki2/";
     UsbReader * usbReader;
     CopierThread * folderCopier;
 };

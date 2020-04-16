@@ -39,7 +39,7 @@ private:
 signals:
     void minimumChanged(double minimum);
     void maximumChanged(double maximum);
-    void progressChanged(quint64 progress);
+    void progressChanged(double progress);
 
 
 

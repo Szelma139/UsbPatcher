@@ -36,6 +36,7 @@ bool FileCopier::checkIfSourceFileExists(QString filepath)
 {
     //media/radek/linux + "/" + filepath
     QFile file(m_sourcePath + filepath);
+    //qDebug()<<m_sourcePath
     if (file.exists())
         return true;
     else

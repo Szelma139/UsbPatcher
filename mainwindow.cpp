@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 
-void MainWindow::setProgressBarValue(qint64 value)
+void MainWindow::setProgressBarValue(double value)
 {
     ui->progressBar->setValue(value);
 }
