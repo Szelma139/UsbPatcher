@@ -40,6 +40,7 @@ signals:
     void minimumChanged(double minimum);
     void maximumChanged(double maximum);
     void progressChanged(double progress);
+    void finishedCopyingFiles();
 
 
 

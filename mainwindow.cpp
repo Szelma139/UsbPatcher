@@ -8,6 +8,9 @@
 #include <usbreader.h>
 
 #include <QFileSystemModel>
+#include <QMessageBox>
+
+#include <unistd.h>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -77,4 +80,14 @@ void MainWindow::on_pushButton_2_clicked()
     ui->treeView->setModel(model);
 ui->treeView->setRootIndex(model->index(mainRoot));
 
+}
+
+
+void MainWindow::finishUpdating()
+{
+    QMessageBox msg;
+    msg.setText("NASTAPI PONOWNE URUCHOMIENIE SYSTEMU");
+    msg.exec();
+    usleep(4000);
+    system("reboot");
 }

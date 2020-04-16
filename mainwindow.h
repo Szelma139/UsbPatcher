@@ -39,6 +39,7 @@ public slots:
     void setProgressBarValue(double value);
     void setProgressBarMin(double min);
     void setProgressBarMax(double max);
+    void finishUpdating();
 };
 
 #endif // MAINWINDOW_H
