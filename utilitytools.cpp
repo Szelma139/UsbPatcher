@@ -1,4 +1,4 @@
-#include "utilitytools.h"
+﻿#include "utilitytools.h"
 
 UtilityTools::UtilityTools()
 {

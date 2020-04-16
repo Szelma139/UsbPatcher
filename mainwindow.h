@@ -26,19 +26,13 @@ private:
 
     QFileSystemWatcher * watcher;
 
-
-private slots:
-
-    void showChanges(QString changes);
-
-
-    void on_pushButton_2_clicked();
-
 public slots:
 
     void setProgressBarValue(double value);
     void setProgressBarMin(double min);
     void setProgressBarMax(double max);
+
+    void warnAndReboot();
 };
 
 #endif // MAINWINDOW_H

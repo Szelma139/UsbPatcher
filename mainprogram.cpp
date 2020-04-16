@@ -3,6 +3,7 @@
 #include <usbreader.h>
 #include <copierthread.h>
 #include <QDebug>
+#include <confreader.h>
 
 
 MainProgram::MainProgram(QObject * parent)
@@ -47,6 +48,31 @@ void MainProgram::getPathToFiles(QString mountingPoint)
 {
     path = mountingPoint;
     this->showWindow();
+    QString sourceFolder = path + QDir::separator() + folderToCopy;
+
+   //folderToCopy
+    //destinationFolder
+
+
+
+    ////
+    /// if config with paths on pendrive use them if not use default
+    ///
+    ///
+
+    QString configFilePath = mountingPoint + QDir::separator()+"config.init";
+    QDir dir(configFilePath);
+    if (dir.exists())
+
+    {
+       ConfReader conf(configFilePath);
+        destinationFolder = conf.returnDestFromConfig();
+        sourceFolder = conf.returnSourceFromConfig();
+
+    }
+    //////
+
+
 
     if (!QDir(destinationFolder).exists())
         return;
@@ -55,7 +81,7 @@ void MainProgram::getPathToFiles(QString mountingPoint)
     /// \copy only Contents Of Folder Contents on new connected DRIVE
     /// device must use udev/dev
     ///
-    QString sourceFolder = path + QDir::separator() + folderToCopy;
+
 
     folderCopier->copy(sourceFolder, destinationFolder);
 }
