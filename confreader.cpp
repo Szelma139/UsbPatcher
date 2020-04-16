@@ -28,3 +28,15 @@ QString ConfReader::returnDestFromConfig()
     QString source = settings.value("conf/Destination").toString();
     return source;
 }
+
+
+void ConfReader::pathSaver(QString sourcePath, QString destPath, QString penPath)
+{
+
+        QSettings  settings;
+        settings.beginGroup("conf");
+        settings.setValue("Source: ",sourcePath);
+        settings.setValue("Destination: ", destPath);
+        settings.endGroup();
+
+}

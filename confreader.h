@@ -8,9 +8,9 @@ class ConfReader
 public:
     ConfReader(QString confPath );
     QString returnSourceFromConfig();
-
-
     QString returnDestFromConfig();
+    void pathSaver(QString sourcePath, QString destPath, QString penPath);
+
 
 
 private:

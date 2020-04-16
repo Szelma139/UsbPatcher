@@ -60,10 +60,9 @@ void MainProgram::getPathToFiles(QString mountingPoint)
     ///
     ///
 
-    QString configFilePath = mountingPoint + QDir::separator()+"config.init";
+    QString configFilePath = mountingPoint + QDir::separator()+"config.ini";
     QDir dir(configFilePath);
     if (dir.exists())
-
     {
        ConfReader conf(configFilePath);
         destinationFolder = conf.returnDestFromConfig();
@@ -92,6 +91,8 @@ void MainProgram::copyFilesFromUsb()
 usbReader->start();
 
 }
+
+
 
 
 
