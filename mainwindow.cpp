@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+
    // ui->setupUi(this);
    // QString path = "/dev/";
    // watcher = new QFileSystemWatcher(this);
@@ -23,6 +24,23 @@ MainWindow::MainWindow(QWidget *parent) :
 
    // connect(reader,SIGNAL(spottedChanges(QString)),this,SLOT(showChanges(QString)));
     //reader->start();
+
+}
+
+
+
+void MainWindow::setProgressBarValue(qint64 value)
+{
+    ui->progressBar->setValue(value);
+}
+void MainWindow::setProgressBarMin(double min)
+{
+
+    ui->progressBar->setMinimum(min);
+}
+void MainWindow::setProgressBarMax(double max)
+{
+    ui->progressBar->setMaximum(max);
 }
 
 MainWindow::~MainWindow()

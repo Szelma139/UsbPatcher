@@ -33,6 +33,12 @@ private slots:
 
 
     void on_pushButton_2_clicked();
+
+public slots:
+
+    void setProgressBarValue(qint64 value);
+    void setProgressBarMin(double min);
+    void setProgressBarMax(double max);
 };
 
 #endif // MAINWINDOW_H
