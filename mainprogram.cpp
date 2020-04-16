@@ -20,6 +20,8 @@ MainProgram::MainProgram(QObject * parent)
 
     connect(folderCopier, &CopierThread::progressChanged,
             &windowProgress, &MainWindow::setProgressBarValue, Qt::QueuedConnection);
+
+
 }
 
 QString MainProgram::getFolderToCopy() const

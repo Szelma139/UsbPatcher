@@ -21,9 +21,10 @@ t.copy(source,destinationFolder);
 int main(int argc, char ** argv){
 
     QApplication a(argc,argv);
-MainProgram * p = new MainProgram;
-p->setFolderToCopy("duzyfolder");
-p->copyFilesFromUsb();
+MainProgram m;
+
+m.setFolderToCopy("duzyfolder");
+m.copyFilesFromUsb();
 
 /*
 

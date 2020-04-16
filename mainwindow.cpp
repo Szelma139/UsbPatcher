@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
 
-   // ui->setupUi(this);
+    ui->setupUi(this);
    // QString path = "/dev/";
    // watcher = new QFileSystemWatcher(this);
    // watcher->addPath(path);
