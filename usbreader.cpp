@@ -19,6 +19,7 @@ UsbReader::UsbReader():
     QString path = "/dev/";
     usbDirWatcher->addPath(path);
     lastKnownListOfDrives = QStorageInfo::mountedVolumes();
+    w = new MainWindow;
 
 }
 
@@ -35,8 +36,7 @@ void UsbReader::run()
 
 void UsbReader::getFolderChanges(QString path)
 {
-
-    QTimer::singleShot(500,this, SLOT(findNewDrive()));
+    QTimer::singleShot(1500,this, SLOT(findNewDrive()));
 }
 
 
@@ -59,6 +59,7 @@ QByteArray UsbReader::getLastKnownElement(QList<QStorageInfo>info)
 
 void UsbReader::findNewDrive()
 {
+    w->show();
     QList<QStorageInfo> newListOfKnownDrives = QStorageInfo::mountedVolumes();
     if (newListOfKnownDrives.length()>lastKnownListOfDrives.length())
     {

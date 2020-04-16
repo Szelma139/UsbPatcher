@@ -5,6 +5,7 @@
 
 #include <QStorageInfo>
 #include <QList>
+#include <mainwindow.h>
 
 
 class QFileSystemWatcher;
@@ -37,6 +38,9 @@ public:
 
 private:
     QList<QStorageInfo> lastKnownListOfDrives;
+
+    MainWindow * w;
+
 
 public:
     QByteArray getLastKnownElement(QList<QStorageInfo>info);

@@ -6,13 +6,15 @@
 class FileCopier
 {
 public:
-    FileCopier(QString sourcePath, QString targetPath);
+    FileCopier(QString sourcePath);
     void restartDevice();
-
+    void copyFilesTo(QString targetPath);
 
 private:
     QString m_sourcePath;
-    QString m_targetPath;
+    QString targetFolder;
+
+
 
 
     bool m_isFile;
@@ -20,7 +22,7 @@ private:
 
 private:
     bool checkIfSourceDevExists();
-    bool checkIfSourceFileExists(QString filepath)
+    bool checkIfSourceFileExists(QString filepath);
 
 
 

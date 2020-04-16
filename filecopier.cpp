@@ -2,14 +2,14 @@
 #include <QDir>
 #include <QDebug>
 
-FileCopier::FileCopier(QString sourcePath, QString targetPath)
+FileCopier::FileCopier(QString sourcePath)
 {
 
 
     ////source Path is mount point, without definitive path
 
     m_sourcePath = sourcePath;
-    m_targetPath = targetPath;
+
 }
 
 
@@ -40,4 +40,16 @@ bool FileCopier::checkIfSourceFileExists(QString filepath)
         return true;
     else
         return false;
+}
+
+
+
+void FileCopier::copyFilesTo(QString targetPath)
+{
+
+    if (QFile::exists(targetPath)){
+        QFile::remove(targetPath);
+    }
+       if (QFile::copy(m_sourcePath, targetPath))
+           qDebug()<<"!!!!!!!!!!!!!!!!!!!!!!!SUKCES!!!!!!!!!!!!!";
 }

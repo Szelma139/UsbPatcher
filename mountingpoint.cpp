@@ -16,8 +16,9 @@ QString MountingPoint::getProcessedMountingPoint(QString partitionName)
     QFile file("/proc/self/mounts");
 
         if (file.exists())
-
         QString fullMountingPoint;
+
+
     if(file.open(QIODevice::ReadOnly))
     {
 
@@ -44,6 +45,7 @@ QString MountingPoint::getProcessedMountingPoint(QString partitionName)
     }
     QString mountedPath = returnMountingPath(mountPointNewLine);
 
+    return mountedPath;
 }
 
 

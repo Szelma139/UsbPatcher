@@ -3,7 +3,7 @@ QT += gui core network widgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++11 console
+CONFIG -= c++11 console
 CONFIG -= app_bundlele
 
 # The following define makes your compiler emit warnings if you use
@@ -20,6 +20,7 @@ DEFINES += QT_DEPRECATED_WARNINGS QT_DISABLE_DEPRECATED_BEFORE
 SOURCES += \
         drivewatcher.cpp \
         filecopier.cpp \
+        filesmanage.cpp \
         main.cpp \
         mainwindow.cpp \
         mountingpoint.cpp \
@@ -32,16 +33,11 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../Wideo/lib/release/ -lusb-1.0
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../Wideo/lib/debug/ -lusb-1.0
-else:unix: LIBS += -L$$PWD/../Wideo/lib/ -lusb-1.0
-
-INCLUDEPATH += $$PWD/../Wideo/include
-DEPENDPATH += $$PWD/../Wideo/include
 
 HEADERS += \
     drivewatcher.h \
     filecopier.h \
+    filesmanage.h \
     mainwindow.h \
     mountingpoint.h \
     usbdevicediscover.h \
@@ -50,10 +46,3 @@ HEADERS += \
 
 FORMS += \
     mainwindow.ui
-
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../Obrazy/libusbp/build/release/ -lusbp-1
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../Obrazy/libusbp/build/debug/ -lusbp-1
-else:unix: LIBS += -L$$PWD/../Obrazy/libusbp/build/ -lusbp-1
-
-INCLUDEPATH += $$PWD/../Obrazy/libusbp/include
-DEPENDPATH += $$PWD/../Obrazy/libusbp/include

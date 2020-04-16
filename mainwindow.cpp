@@ -7,23 +7,22 @@
 
 #include <usbreader.h>
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <QFileSystemModel>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);
-    QString path = "/dev/";
-    watcher = new QFileSystemWatcher(this);
-    watcher->addPath(path);
+   // ui->setupUi(this);
+   // QString path = "/dev/";
+   // watcher = new QFileSystemWatcher(this);
+   // watcher->addPath(path);
 
-    connect(watcher,SIGNAL(directoryChanged(QString)), this, SLOT(showPort(QString)));
-    reader = new UsbReader();
+   // connect(watcher,SIGNAL(directoryChanged(QString)), this, SLOT(showPort(QString)));
+    //reader = new UsbReader();
 
-    connect(reader,SIGNAL(spottedChanges(QString)),this,SLOT(showChanges(QString)));
-    reader->start();
+   // connect(reader,SIGNAL(spottedChanges(QString)),this,SLOT(showChanges(QString)));
+    //reader->start();
 }
 
 MainWindow::~MainWindow()
@@ -49,10 +48,15 @@ void MainWindow::showChanges(QString changes)
 
 
 
-void MainWindow::showPort(QString path)
+
+
+void MainWindow::on_pushButton_2_clicked()
 {
-    UsbDeviceDiscover r;
-    //r.getUsbDevice();
-  //  qDebug()<<r.getUsbDevice();
-   // qDebug()<<r.getDevice_name();
+    QString mainRoot = "/media/radek/KARTA\ USB/";
+    QFileSystemModel * model = new QFileSystemModel;
+    model->setRootPath(mainRoot);
+
+    ui->treeView->setModel(model);
+ui->treeView->setRootIndex(model->index(mainRoot));
+
 }

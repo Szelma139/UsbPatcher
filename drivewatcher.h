@@ -30,7 +30,7 @@ protected:
     void run();
 
 signals:
-    void foundNewUsbDevice(QString);
+    void foundNewUsbDev(QString);
 
 };
 
