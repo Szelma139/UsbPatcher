@@ -41,6 +41,8 @@ signals:
     void maximumChanged(double maximum);
     void progressChanged(double progress);
 
+    void finishedUpdatingFiles();
+
 
 
 };

@@ -4,6 +4,7 @@
 #include <copierthread.h>
 #include <QDebug>
 
+
 MainProgram::MainProgram(QObject * parent)
 {
     usbReader= new UsbReader(this);
@@ -20,6 +21,9 @@ MainProgram::MainProgram(QObject * parent)
 
     connect(folderCopier, &CopierThread::progressChanged,
             &windowProgress, &MainWindow::setProgressBarValue, Qt::QueuedConnection);
+
+    connect(folderCopier, &CopierThread::finishedUpdatingFiles,
+            &windowProgress, &MainWindow::warnAndReboot);
 
 
 }
@@ -47,7 +51,11 @@ void MainProgram::getPathToFiles(QString mountingPoint)
     if (!QDir(destinationFolder).exists())
         return;
 
-    QString sourceFolder = path + QDir::separator()+folderToCopy;
+    ////
+    /// \copy only Contents Of Folder Contents on new connected DRIVE
+    /// device must use udev/dev
+    ///
+    QString sourceFolder = path + QDir::separator() + folderToCopy;
 
     folderCopier->copy(sourceFolder, destinationFolder);
 }
@@ -58,5 +66,8 @@ void MainProgram::copyFilesFromUsb()
 usbReader->start();
 
 }
+
+
+
 
 

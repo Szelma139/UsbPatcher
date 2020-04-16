@@ -7,7 +7,8 @@
 
 #include <usbreader.h>
 
-#include <QFileSystemModel>
+#include <QMessageBox>
+#include <unistd.h>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -65,6 +66,19 @@ void MainWindow::showChanges(QString changes)
 }
 
 
+void MainWindow::warnAndReboot()
+{
+
+    QMessageBox msg;
+    msg.setText("NASTAPI RESET URZADZENIA");
+    msg.show();
+
+    usleep(8000);
+
+
+    //system("reboot");
+
+}
 
 
 

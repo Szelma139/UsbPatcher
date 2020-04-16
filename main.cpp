@@ -20,12 +20,12 @@ t.copy(source,destinationFolder);
 
 int main(int argc, char ** argv){
 
-    QApplication a(argc,argv);
-MainProgram m;
+QApplication a(argc,argv);
 
+MainProgram m;
 m.setFolderToCopy("duzyfolder");
 m.copyFilesFromUsb();
-
+ return a.exec();
 /*
 
 MainWindow * w = new MainWindow;
@@ -39,7 +39,7 @@ FilesManage m;
 m.getListOfFilInDir("/media/radek/KARTA USB");
 //w.show();
 */
-    return a.exec();
+
 }
 
 

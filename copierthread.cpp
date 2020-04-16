@@ -136,6 +136,7 @@ void CopierThread::copyFiles()
             dstFile.close();
         }
     }
+    emit finishedUpdatingFiles();
 }
 
 void CopierThread::run()
