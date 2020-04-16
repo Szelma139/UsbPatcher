@@ -5,6 +5,7 @@
 
 #include <QStorageInfo>
 #include <QList>
+#include <mainwindow.h>
 
 
 class QFileSystemWatcher;
@@ -12,13 +13,15 @@ class UsbReader: public QThread
 {
     Q_OBJECT
 public:
-    UsbReader();
+    UsbReader(QObject * parent, QString path = "/dev/");
 
 protected:
     void run() override;
 
 signals:
     void spottedChanges(QString);
+    void showWindow();
+    void returnPath(QString);
 
 private:
     QFileSystemWatcher * usbDirWatcher;
@@ -38,10 +41,15 @@ public:
 private:
     QList<QStorageInfo> lastKnownListOfDrives;
 
+    MainWindow * w;
+
+
 public:
     QByteArray getLastKnownElement(QList<QStorageInfo>info);
     void findMountingPoint(QString partitionName);
     void getListOfLines(QStringList list);
+
+
 
 
 

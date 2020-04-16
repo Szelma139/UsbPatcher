@@ -12,13 +12,13 @@
 #include <QRegExp>
 #include <unistd.h>
 
-UsbReader::UsbReader():
+UsbReader::UsbReader(QObject * parent, QString path):
     QThread()
 {
     usbDirWatcher = new QFileSystemWatcher(this);
-    QString path = "/dev/";
     usbDirWatcher->addPath(path);
     lastKnownListOfDrives = QStorageInfo::mountedVolumes();
+    w = new MainWindow;
 
 }
 
@@ -26,7 +26,7 @@ UsbReader::UsbReader():
 void UsbReader::run()
 {
     connect(usbDirWatcher, SIGNAL(directoryChanged(QString)),
-            this,SLOT(getFolderChanges(QString)));
+            this,SLOT(getFolderChanges(QString)),Qt::UniqueConnection);
 
 
 
@@ -35,8 +35,7 @@ void UsbReader::run()
 
 void UsbReader::getFolderChanges(QString path)
 {
-
-    QTimer::singleShot(500,this, SLOT(findNewDrive()));
+    QTimer::singleShot(1500,this, SLOT(findNewDrive()));
 }
 
 
@@ -128,13 +127,25 @@ void UsbReader::findMountingPoint(QString partitionName)
     qDebug()<<"M" << fullMountingPoint;
 
 
+
+
+
+
+
+
     while (fullMountingPoint.contains("\\"))
     {
         fullMountingPoint=fullMountingPoint.replace("\\040","\ ");
         qDebug()<<"Nowy" << fullMountingPoint;
     }
     usleep(3000);
-    QString pathToCopyFiles;
+
+
+
+    emit returnPath(fullMountingPoint);
+
+    /*
+    //8QString pathToCopyFiles;
     QDir dir(fullMountingPoint);
     qDebug()<< "czytany dir: "<< fullMountingPoint;
     if (dir.exists() && dir.isReadable())
@@ -155,17 +166,16 @@ QFile file2(pathToCopyFiles);
 if (file2.exists()) qDebug()<<"Wszystko w porzadku. Plik istnieje";
 
     QString sourcePath = pathToCopyFiles;
-    QString destFilePath = "/opt/pliki/dupa.txt";
+    QString destFilePath = "/opt/pliki/pliki2/dupa.txt";
 
     if (QFile::exists(destFilePath)){
         QFile::remove(destFilePath);
     }
        if (QFile::copy(sourcePath, destFilePath))
            qDebug()<<"!!!!!!!!!!!!!!!!!!!!!!!SUKCES!!!!!!!!!!!!!";
-       else qDebug()<<"DUPA";
 
 
-
+*/
 }
 
 

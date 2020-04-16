@@ -25,15 +25,20 @@ private:
     Ui::MainWindow *ui;
 
     QFileSystemWatcher * watcher;
-    UsbReader * reader;
 
 
 private slots:
-    void showPort(QString path);
 
     void showChanges(QString changes);
 
 
+    void on_pushButton_2_clicked();
+
+public slots:
+
+    void setProgressBarValue(double value);
+    void setProgressBarMin(double min);
+    void setProgressBarMax(double max);
 };
 
 #endif // MAINWINDOW_H
