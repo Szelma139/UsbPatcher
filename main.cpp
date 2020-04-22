@@ -2,6 +2,8 @@
 #include <QApplication>
 #include <filesmanage.h>
 #include <mainprogram.h>
+#include <QSettings>
+#include <QDebug>
 
 
 
@@ -18,14 +20,34 @@ t.copy(source,destinationFolder);
 */
 }
 
+
+void createConfigFile()
+{
+
+    QSettings * settings = new QSettings("/media/radek/KARTA\ USB/config.ini", QSettings::IniFormat);
+    settings->beginGroup("conf");
+    settings->setValue("Source","siostramalgosia");
+    settings->setValue("Destination","/opt/pliki/pliki2/rabarbar");
+    settings->endGroup();
+    qDebug()<<"Zapisano";
+}
+
 int main(int argc, char ** argv){
 
 QApplication a(argc,argv);
 
+
+
 MainProgram m;
-m.setFolderToCopy("duzyfolder");
+//m.setFolderToCopy("duzyfolder");
 m.copyFilesFromUsb();
- return a.exec();
+
+
+
+
+
+//changeConfigFile();
+return a.exec();
 /*
 
 MainWindow * w = new MainWindow;

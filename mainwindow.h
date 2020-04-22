@@ -18,20 +18,19 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-private slots:
-    void on_pushButton_clicked();
 
 private:
     Ui::MainWindow *ui;
 
     QFileSystemWatcher * watcher;
 
+    void runCopyMechanism(QString src, QString dst);
+
 public slots:
 
     void setProgressBarValue(double value);
     void setProgressBarMin(double min);
     void setProgressBarMax(double max);
-
     void warnAndReboot();
 };
 

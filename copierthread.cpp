@@ -134,9 +134,12 @@ void CopierThread::copyFiles()
             }
             srcFile.close();
             dstFile.close();
+            //emit +1
         }
     }
+    //emit 100%
     emit finishedUpdatingFiles();
+    qDebug()<<"Zakonczono kopiowanie i wyslano sygnal";
 }
 
 void CopierThread::run()

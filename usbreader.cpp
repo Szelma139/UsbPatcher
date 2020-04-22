@@ -1,16 +1,12 @@
 ﻿#include "usbreader.h"
 
 #include <QFileSystemWatcher>
-
-
-#include <QDebug>
-
 #include <QDir>
 #include <QTimer>
-#include <QProcess>
 #include <QFile>
 #include <QRegExp>
 #include <unistd.h>
+#include <QDebug>
 
 UsbReader::UsbReader(QObject * parent, QString path):
     QThread()
@@ -22,13 +18,10 @@ UsbReader::UsbReader(QObject * parent, QString path):
 
 }
 
-
 void UsbReader::run()
 {
     connect(usbDirWatcher, SIGNAL(directoryChanged(QString)),
             this,SLOT(getFolderChanges(QString)),Qt::UniqueConnection);
-
-
 
 }
 
@@ -99,20 +92,15 @@ void UsbReader::findMountingPoint(QString partitionName)
 
     int number = 0;
 
-
     line = stream.readLine();
-    // qDebug()<<line;
 
     while (!line.isNull())
     {
         line=stream.readLine();
-        // qDebug()<<line << number;
         number++;
 
         if (line.contains(partitionName))
         {
-            qDebug()<< "Panie to ta linia"
-                    <<line;
             fullMountingPoint = line;
             break;
         }

@@ -3,13 +3,16 @@
 #include <usbreader.h>
 #include <copierthread.h>
 #include <QDebug>
-#include <confreader.h>
+#include <pathdetails.h>
+#include <unistd.h>
+#include <readconfig.h>
 
 
 MainProgram::MainProgram(QObject * parent)
 {
     usbReader= new UsbReader(this);
     folderCopier = new CopierThread(this);
+    reader = new ReadConfig(this);
 
     connect(usbReader, &UsbReader::returnPath,
             this, &MainProgram::getPathToFiles);
@@ -24,8 +27,10 @@ MainProgram::MainProgram(QObject * parent)
             &windowProgress, &MainWindow::setProgressBarValue, Qt::QueuedConnection);
 
     connect(folderCopier, &CopierThread::finishedUpdatingFiles,
-            &windowProgress, &MainWindow::warnAndReboot);
+            &windowProgress, &MainWindow::warnAndReboot, Qt::QueuedConnection);
 
+    connect(reader, &ReadConfig::copyPathsSet,
+                this, &MainProgram::runCopyMechanism, Qt::QueuedConnection);
 
 }
 
@@ -46,13 +51,12 @@ void MainProgram::showWindow()
 
 void MainProgram::getPathToFiles(QString mountingPoint)
 {
+
     path = mountingPoint;
     this->showWindow();
-    QString sourceFolder = path + QDir::separator() + folderToCopy;
 
    //folderToCopy
     //destinationFolder
-
 
 
     ////
@@ -61,28 +65,34 @@ void MainProgram::getPathToFiles(QString mountingPoint)
     ///
 
     QString configFilePath = mountingPoint + QDir::separator()+"config.ini";
-    QDir dir(configFilePath);
-    if (dir.exists())
-    {
-       ConfReader conf(configFilePath);
-        destinationFolder = conf.returnDestFromConfig();
-        sourceFolder = conf.returnSourceFromConfig();
-
-    }
-    //////
+    qDebug()<<"ConfigFilePath" <<configFilePath;
+    /*
+    ConfReader r(configFilePath);
+    r.createConf("nowykatalog","/opt/pliki/pliki3/");
 
 
+            usleep(2000);
 
+            */
+
+  //  usleep(2000);
+    QFile file(configFilePath);
+    if(!file.exists()) return;
+
+    reader->readConfPaths(configFilePath,path);
+
+    //*
+
+/*
     if (!QDir(destinationFolder).exists())
         return;
-
+*/
     ////
     /// \copy only Contents Of Folder Contents on new connected DRIVE
     /// device must use udev/dev
     ///
 
 
-    folderCopier->copy(sourceFolder, destinationFolder);
 }
 
 
@@ -90,6 +100,14 @@ void MainProgram::copyFilesFromUsb()
 {
 usbReader->start();
 
+}
+
+
+void MainProgram::runCopyMechanism(QString s, QString d)
+{
+    qDebug()<<QString("Source %1, Destination %1").arg(s).arg(d);
+
+ folderCopier->copy(s, d);
 }
 
 
