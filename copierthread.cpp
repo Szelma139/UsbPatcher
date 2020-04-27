@@ -139,6 +139,13 @@ void CopierThread::copyFiles()
     }
     //emit 100%
     emit finishedUpdatingFiles();
+
+    //emit md5 check
+    //stworz Hashmap plikow
+
+
+
+
     qDebug()<<"Zakonczono kopiowanie i wyslano sygnal";
 }
 

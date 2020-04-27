@@ -27,8 +27,8 @@ SOURCES += \
         mainwindow.cpp \
         mountingpoint.cpp \
         pathdetails.cpp \
+        programkiller.cpp \
         readconfig.cpp \
-        usbdevicediscover.cpp \
         usbreader.cpp \
         utilitytools.cpp
 
@@ -47,8 +47,8 @@ HEADERS += \
     mainwindow.h \
     mountingpoint.h \
     pathdetails.h \
+    programkiller.h \
     readconfig.h \
-    usbdevicediscover.h \
     usbreader.h \
     utilitytools.h
 

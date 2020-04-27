@@ -1,7 +1,6 @@
 ﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <usbdevicediscover.h>
 #include <QDebug>
 
 
@@ -49,6 +48,6 @@ void MainWindow::warnAndReboot()
 
     usleep(8000);
 
-    //system("reboot");
+    system("reboot");
 
 }

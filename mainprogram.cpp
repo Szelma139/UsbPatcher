@@ -6,6 +6,7 @@
 #include <pathdetails.h>
 #include <unistd.h>
 #include <readconfig.h>
+#include <programkiller.h>
 
 
 MainProgram::MainProgram(QObject * parent)
@@ -54,39 +55,32 @@ void MainProgram::getPathToFiles(QString mountingPoint)
 
     path = mountingPoint;
     this->showWindow();
-
-   //folderToCopy
-    //destinationFolder
-
-
     ////
     /// if config with paths on pendrive use them if not use default
     ///
     ///
+    ///
+    ///
+
+
+
+
+
+
 
     QString configFilePath = mountingPoint + QDir::separator()+"config.ini";
     qDebug()<<"ConfigFilePath" <<configFilePath;
-    /*
-    ConfReader r(configFilePath);
-    r.createConf("nowykatalog","/opt/pliki/pliki3/");
-
-
-            usleep(2000);
-
-            */
-
-  //  usleep(2000);
     QFile file(configFilePath);
     if(!file.exists()) return;
 
+
+    ProgramKiller programKiller(configFilePath);
+    programKiller.setProgramsToKill();
+    programKiller.startKillingLoop();
+
+
+
     reader->readConfPaths(configFilePath,path);
-
-    //*
-
-/*
-    if (!QDir(destinationFolder).exists())
-        return;
-*/
     ////
     /// \copy only Contents Of Folder Contents on new connected DRIVE
     /// device must use udev/dev

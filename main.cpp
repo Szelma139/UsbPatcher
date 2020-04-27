@@ -28,6 +28,11 @@ void createConfigFile()
     settings->beginGroup("conf");
     settings->setValue("Source","siostramalgosia");
     settings->setValue("Destination","/opt/pliki/pliki2/rabarbar");
+    settings->setValue("KillProgram1","");
+    settings->setValue("KillProgram2","");
+    settings->setValue("KillProgram3","");
+    settings->setValue("KillProgram4","");
+    settings->setValue("KillProgram5","");
     settings->endGroup();
     qDebug()<<"Zapisano";
 }

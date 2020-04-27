@@ -11,6 +11,7 @@ public:
     QString returnSourceFromConfig();
     QString returnDestFromConfig();
     void createConf(QString srcPath, QString destPath);
+    QStringList returnKillArguments();
 
 
 

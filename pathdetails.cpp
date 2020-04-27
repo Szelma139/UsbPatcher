@@ -35,6 +35,25 @@ QString PathDetails::returnDestFromConfig()
     return destination;
 }
 
+
+QStringList PathDetails::returnKillArguments()
+{
+    QStringList programKillList;
+    int SIZE = 6;
+    QFile file(m_configFilePath);
+    if(!file.exists()) qDebug()<<"Blad";
+    QSettings settings(m_configFilePath, QSettings::IniFormat);
+    for (int i =1; i<SIZE;i++)
+    {
+        QString configProgram="conf/KillProgram"+QString::number(i);
+        QString killProgram = settings.value(configProgram).toString();
+        programKillList.append(killProgram);
+
+    }
+
+    return programKillList;
+}
+
 ///
 /// \brief PathDetails::createConf
 /// \param srcPath
