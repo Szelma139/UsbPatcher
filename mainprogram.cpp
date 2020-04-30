@@ -9,7 +9,7 @@
 #include <programkiller.h>
 
 
-MainProgram::MainProgram(QObject * parent)
+MainProgram::MainProgram()
 {
     usbReader= new UsbReader(this);
     folderCopier = new CopierThread(this);
@@ -58,13 +58,6 @@ void MainProgram::getPathToFiles(QString mountingPoint)
     ////
     /// if config with paths on pendrive use them if not use default
     ///
-    ///
-    ///
-    ///
-
-
-
-
 
 
 
@@ -74,19 +67,20 @@ void MainProgram::getPathToFiles(QString mountingPoint)
     if(!file.exists()) return;
 
 
-    ProgramKiller programKiller(configFilePath);
-    programKiller.setProgramsToKill();
-    programKiller.startKillingLoop();
+    //Parameters::Task task = Parameters::Task::onlyKill
 
-
+    programKiller = new ProgramKiller(this,configFilePath);
+    programKiller->setProgramsToKill();
+    programKiller->startKillingLoop();
 
     reader->readConfPaths(configFilePath,path);
     ////
     /// \copy only Contents Of Folder Contents on new connected DRIVE
+    /// read conf, take paths from config file and start copying proc
     /// device must use udev/dev
     ///
 
-
+    programKiller->deleteLater();
 }
 
 

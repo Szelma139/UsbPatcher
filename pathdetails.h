@@ -12,6 +12,7 @@ public:
     QString returnDestFromConfig();
     void createConf(QString srcPath, QString destPath);
     QStringList returnKillArguments();
+    void createConfigFile(QString configPath);
 
 
 

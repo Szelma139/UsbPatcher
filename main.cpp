@@ -4,6 +4,7 @@
 #include <mainprogram.h>
 #include <QSettings>
 #include <QDebug>
+#include <parameters.h>
 
 
 
@@ -21,38 +22,50 @@ t.copy(source,destinationFolder);
 }
 
 
-void createConfigFile()
-{
 
-    QSettings * settings = new QSettings("/media/radek/KARTA\ USB/config.ini", QSettings::IniFormat);
-    settings->beginGroup("conf");
-    settings->setValue("Source","siostramalgosia");
-    settings->setValue("Destination","/opt/pliki/pliki2/rabarbar");
-    settings->setValue("KillProgram1","");
-    settings->setValue("KillProgram2","");
-    settings->setValue("KillProgram3","");
-    settings->setValue("KillProgram4","");
-    settings->setValue("KillProgram5","");
-    settings->endGroup();
-    qDebug()<<"Zapisano";
-}
 
 int main(int argc, char ** argv){
 
 QApplication a(argc,argv);
 
+//int 0 open app
+//int 1 only createFile
+int t = 0;
 
+/*switch (t)
+{
+case 0:
+{
+
+
+}
+    break;
+
+case 1:
+{
+    //createConfigFile();
+        return a.exec();
+}
+
+
+break;
+
+*/
 
 MainProgram m;
 //m.setFolderToCopy("duzyfolder");
 m.copyFilesFromUsb();
+return a.exec();
+}
+
+
+
 
 
 
 
 
 //changeConfigFile();
-return a.exec();
 /*
 
 MainWindow * w = new MainWindow;
@@ -67,6 +80,6 @@ m.getListOfFilInDir("/media/radek/KARTA USB");
 //w.show();
 */
 
-}
+//}
 
 

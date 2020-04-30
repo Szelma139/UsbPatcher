@@ -46,6 +46,7 @@ HEADERS += \
     mainprogram.h \
     mainwindow.h \
     mountingpoint.h \
+    parameters.h \
     pathdetails.h \
     programkiller.h \
     readconfig.h \

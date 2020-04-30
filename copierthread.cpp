@@ -68,7 +68,9 @@ QStringList CopierThread::getFolderContents(QString &sourceFolder)
 
         foreach (const QFileInfo &fileInfo, sourceDir.entryInfoList(QDir::NoDotAndDotDot | QDir::NoSymLinks
                                                                     | QDir::Dirs | QDir::Files)) {
-            QString srcFilePath = fileInfo.filePath();
+
+            //dla kazdego pliku z plikow w folderze  sourceFolder
+            QString srcFilePath = fileInfo.filePath(); //wez pierwszy plik - path
             qDebug()<<"sourceFilePath"<<srcFilePath;
             QString dstFilePath = destFolder.isEmpty() ? fileInfo.fileName() : destFolder + QDir::separator() + fileInfo.fileName();
             qDebug()<<"dstFilePath"<<dstFilePath;

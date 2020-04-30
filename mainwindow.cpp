@@ -44,10 +44,10 @@ void MainWindow::warnAndReboot()
     ui->progressBar->setValue(ui->progressBar->maximum());
     QMessageBox msg;
     msg.setText("NASTAPI RESET URZADZENIA");
-    msg.show();
+    msg.exec();
 
     usleep(8000);
 
-    system("reboot");
+  //  system("reboot");
 
 }

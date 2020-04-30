@@ -3,10 +3,10 @@
 
 #include <QObject>
 
-class ProgramKiller
+class ProgramKiller: public QObject
 {
 public:
-    ProgramKiller(QString config);
+    ProgramKiller(QObject * parent, QString config);
 
 
 

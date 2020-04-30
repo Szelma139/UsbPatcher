@@ -73,3 +73,24 @@ void PathDetails::createConf(QString srcPath, QString destPath)
 }
 
 
+void PathDetails::createConfigFile(QString configPath)
+{
+
+
+    ///media/radek/KARTA\ USB/config.ini
+    QSettings * settings = new QSettings(configPath, QSettings::IniFormat);
+    //po mouncie wrzucic
+    settings->beginGroup("conf");
+    settings->setValue("Source","siostramalgosia");
+    settings->setValue("Destination","/opt/pliki/pliki2/rabarbar");
+    settings->setValue("KillProgram1","");
+    settings->setValue("KillProgram2","");
+    settings->setValue("KillProgram3","");
+    settings->setValue("KillProgram4","");
+    settings->setValue("KillProgram5","");
+    settings->endGroup();
+    qDebug()<<"Zapisano";
+}
+
+
+

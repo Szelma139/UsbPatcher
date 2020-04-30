@@ -5,18 +5,22 @@
 
 
 #include <mainwindow.h>
+#include <parameters.h>
+
 
 
 class ReadConfig;
 class CopierThread;
 class UsbReader;
+class ProgramKiller;
+
 class MainProgram : public QObject
 {
 
     Q_OBJECT
 
 public:
-    MainProgram(QObject * parent = nullptr);
+    MainProgram();
 
 
     QString getFolderToCopy() const;
@@ -43,6 +47,7 @@ private:
     UsbReader * usbReader;
     CopierThread * folderCopier;
     ReadConfig * reader;
+    ProgramKiller * programKiller;
 };
 
 #endif // MAINPROGRAM_H
