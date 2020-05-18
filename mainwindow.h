@@ -32,6 +32,10 @@ public slots:
     void setProgressBarMin(double min);
     void setProgressBarMax(double max);
     void warnAndReboot();
+
+
+signals:
+void timeToUmountDevice();
 };
 
 #endif // MAINWINDOW_H

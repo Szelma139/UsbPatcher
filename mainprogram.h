@@ -48,6 +48,9 @@ private:
     CopierThread * folderCopier;
     ReadConfig * reader;
     ProgramKiller * programKiller;
+
+public slots:
+    void goToSleep();
 };
 
 #endif // MAINPROGRAM_H

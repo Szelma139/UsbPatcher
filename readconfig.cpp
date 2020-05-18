@@ -23,7 +23,7 @@ void ReadConfig::readConfPaths(QString src, QString mountPoint)
     if (configDirectory.exists())
     {
         qDebug()<<"plik  konfiguracyjny istnieje";
-       PathDetails  conf(src);
+        PathDetails  conf(src);
         destinationFolder = conf.returnDestFromConfig();
         folderToCopy = conf.returnSourceFromConfig();
 

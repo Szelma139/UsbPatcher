@@ -25,7 +25,7 @@ signals:
 
 private:
     QFileSystemWatcher * usbDirWatcher;
-
+    QString mountedPartition;
 
     bool foundNewUsbDev = false;
 
@@ -53,6 +53,8 @@ public:
 
 
 
+    QString getMountedPartition() const;
+    void setMountedPartition(const QString &value);
 };
 
 #endif // USBREADER_H

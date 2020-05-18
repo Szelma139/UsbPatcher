@@ -44,10 +44,13 @@ void MainWindow::warnAndReboot()
     ui->progressBar->setValue(ui->progressBar->maximum());
     QMessageBox msg;
     msg.setText("NASTAPI RESET URZADZENIA");
-    msg.exec();
+    msg.show();
 
     usleep(8000);
 
-  //  system("reboot");
+
+    emit timeToUmountDevice();
+    //emit signal umount and system reboot
+    //odmontuj urzadzenie
 
 }

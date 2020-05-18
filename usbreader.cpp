@@ -25,6 +25,17 @@ void UsbReader::run()
 
 }
 
+QString UsbReader::getMountedPartition() const
+{
+    return mountedPartition;
+}
+
+void UsbReader::setMountedPartition(const QString &value)
+{
+    mountedPartition = value;
+}
+
+
 
 void UsbReader::getFolderChanges(QString path)
 {
@@ -106,6 +117,8 @@ void UsbReader::findMountingPoint(QString partitionName)
         }
 
     }
+    mountedPartition = fullMountingPoint.left(fullMountingPoint.indexOf(" "));
+    qDebug()<<"Mounted parition on drive" << mountedPartition;
     int firstSpace = fullMountingPoint.indexOf(" ");
     fullMountingPoint = fullMountingPoint.mid(firstSpace+1);
     int secondSpace = fullMountingPoint.indexOf(" ");

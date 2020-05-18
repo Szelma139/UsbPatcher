@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <readconfig.h>
 #include <programkiller.h>
+#include <QProcess>
 
 
 MainProgram::MainProgram()
@@ -32,6 +33,9 @@ MainProgram::MainProgram()
 
     connect(reader, &ReadConfig::copyPathsSet,
                 this, &MainProgram::runCopyMechanism, Qt::QueuedConnection);
+
+     connect(&windowProgress,&MainWindow::timeToUmountDevice,
+             this,&MainProgram::goToSleep, Qt::QueuedConnection);
 
 }
 
@@ -86,6 +90,7 @@ void MainProgram::getPathToFiles(QString mountingPoint)
 
 void MainProgram::copyFilesFromUsb()
 {
+
 usbReader->start();
 
 }
@@ -99,8 +104,16 @@ void MainProgram::runCopyMechanism(QString s, QString d)
 }
 
 
+//find device, umount it and go to sleep
+void MainProgram::goToSleep()
+{
 
+    QProcess process;
+    process.start("umount " + usbReader->getMountedPartition() );
+    process.waitForFinished();
 
+   // system("reboot");
+}
 
 
 
