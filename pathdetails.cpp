@@ -88,6 +88,7 @@ void PathDetails::createConfigFile(QString configPath)
     settings->setValue("KillProgram3","");
     settings->setValue("KillProgram4","");
     settings->setValue("KillProgram5","");
+    settings->setValue("commandExecute","1");
     settings->endGroup();
     qDebug()<<"Zapisano";
 }

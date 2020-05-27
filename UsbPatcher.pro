@@ -19,6 +19,7 @@ DEFINES += QT_DEPRECATED_WARNINGS QT_DISABLE_DEPRECATED_BEFORE
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        Log/Logger.cpp \
         copierthread.cpp \
         drivewatcher.cpp \
         filecopier.cpp \
@@ -30,6 +31,7 @@ SOURCES += \
         pathdetails.cpp \
         programkiller.cpp \
         readconfig.cpp \
+        scriptexecutor.cpp \
         usbreader.cpp
 
 # Default rules for deployment.
@@ -39,6 +41,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 
 HEADERS += \
+    Log/Logger.h \
     copierthread.h \
     drivewatcher.h \
     filecopier.h \
@@ -50,6 +53,7 @@ HEADERS += \
     pathdetails.h \
     programkiller.h \
     readconfig.h \
+    scriptexecutor.h \
     usbreader.h
 
 FORMS += \

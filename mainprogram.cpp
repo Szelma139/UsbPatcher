@@ -8,6 +8,8 @@
 #include <readconfig.h>
 #include <programkiller.h>
 #include <QProcess>
+#include <scriptexecutor.h>
+
 
 
 MainProgram::MainProgram()
@@ -15,6 +17,7 @@ MainProgram::MainProgram()
     usbReader= new UsbReader(this);
     folderCopier = new CopierThread(this);
     reader = new ReadConfig(this);
+    scriptexecutor= new ScriptExecutor(this);
 
     connect(usbReader, &UsbReader::returnPath,
             this, &MainProgram::getPathToFiles);
@@ -59,23 +62,23 @@ void MainProgram::getPathToFiles(QString mountingPoint)
 
     path = mountingPoint;
     this->showWindow();
-    ////
-    /// if config with paths on pendrive use them if not use default
-    ///
-
-
 
     QString configFilePath = mountingPoint + QDir::separator()+"config.ini";
     qDebug()<<"ConfigFilePath" <<configFilePath;
     QFile file(configFilePath);
     if(!file.exists()) return;
 
-
-    //Parameters::Task task = Parameters::Task::onlyKill
-
     programKiller = new ProgramKiller(this,configFilePath);
     programKiller->setProgramsToKill();
     programKiller->startKillingLoop();
+
+
+    scriptexecutor->executeScript("enter-edit-mode.sh","/opt/");
+    scriptexecutor->executeScript("mount-rw-system.sh","/opt/");
+   // scriptexecutor->executeScript("enter-edit-mode.sh","/opt/");
+
+
+
 
     reader->readConfPaths(configFilePath,path);
     ////

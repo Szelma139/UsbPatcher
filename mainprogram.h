@@ -13,6 +13,7 @@ class ReadConfig;
 class CopierThread;
 class UsbReader;
 class ProgramKiller;
+class ScriptExecutor;
 
 class MainProgram : public QObject
 {
@@ -48,6 +49,7 @@ private:
     CopierThread * folderCopier;
     ReadConfig * reader;
     ProgramKiller * programKiller;
+    ScriptExecutor * scriptexecutor;
 
 public slots:
     void goToSleep();
