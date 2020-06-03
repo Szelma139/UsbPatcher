@@ -1,42 +1,65 @@
 ﻿#include "Logger.h"
-#include "Logger.h"
 
 #include <QDateTime>
+#include <QDebug>
+#include <QFileInfo>
+#include <QDataStream>
 
-const QString CLogger::m_sFileName = "Log.txt";
-CLogger* CLogger::m_pThis = NULL;
-QFile CLogger::m_Logfile;
-QTextStream CLogger::stream;
-CLogger::CLogger()
-{
+//QString Logger::path="";
+//const QString Logger::m_sFileName = "Log.txt";
+Logger* Logger::m_pThis = NULL;
+//QFile Logger::m_Logfile;
+//QTextStream Logger::stream(&Logger::m_Logfile);
+QTextStream * Logger::stream = NULL;
 
+Logger::Logger(){
+
+    m_sFileName = "/home/radek/Dokumenty/Log.txt";
     m_Logfile.setFileName(m_sFileName);
-    m_Logfile.open(QIODevice::OpenModeFlag::ReadWrite);
+    m_Logfile.open(QIODevice::ReadWrite);
+    Logger::stream = new QTextStream(&m_Logfile);
 
+    if (!m_Logfile.exists()){
+        qDebug()<<"Plik do logowania nie istnieje";} else
+    {
+        qDebug()<<"Plik istnieje";
+        QFileInfo info(Logger::m_Logfile);
+        qDebug()<<"Absolute file path " << info.absoluteFilePath();
+    }
 
 
 }
-CLogger* CLogger::GetLogger(){
+
+Logger* Logger::GetLogger(){
 
     if (m_pThis == NULL){
-        m_pThis = new CLogger();
+        m_pThis = new Logger();
 
-        return m_pThis;
+       // return m_pThis;
     }
+    return m_pThis;
 }
 
-
-
-void CLogger::Log(const QString & sMessage)
-{
-    stream << QDateTime::currentDateTime().toString() << ":\t";
-    stream << sMessage << "\n";
+void Logger::Log(const QString & sMessage){
+  //  QDataStream stream(&m_Logfile);
+   // stream<<"dupa";
+    *Logger::stream<<"test";
+    //*Logger::stream << QDateTime::currentDateTime().toString() << ":\t";
+    //*Logger::stream << sMessage << "\n";
+    qDebug()<<"Trying to log"<<sMessage<<"time"<<QDateTime::currentDateTime().toString();
 }
 
-CLogger& CLogger::operator<<(const QString& sMessage)
-{
-    stream << "\n" << QDateTime::currentDateTime().toString() << ":\t";
-    stream << sMessage << "\n";
+/*
+Logger& Logger::operator<<(const QString& sMessage){
+    *Logger::stream << "\n" << QDateTime::currentDateTime().toString() << ":\t";
+    *Logger::stream << sMessage << "\n";
+    qDebug()<<"Trying to log"<<sMessage<<"time"<<QDateTime::currentDateTime().toString();
     return *this;
+}
+*/
+
+void Logger::setPath(QString path){
+
+   // Logger::path=path;
 }
 

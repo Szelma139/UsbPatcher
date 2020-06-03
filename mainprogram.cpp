@@ -9,6 +9,7 @@
 #include <programkiller.h>
 #include <QProcess>
 #include <scriptexecutor.h>
+#include <Log/Logger.h>
 
 
 
@@ -35,10 +36,10 @@ MainProgram::MainProgram()
             &windowProgress, &MainWindow::warnAndReboot, Qt::QueuedConnection);
 
     connect(reader, &ReadConfig::copyPathsSet,
-                this, &MainProgram::runCopyMechanism, Qt::QueuedConnection);
+            this, &MainProgram::runCopyMechanism, Qt::QueuedConnection);
 
-     connect(&windowProgress,&MainWindow::timeToUmountDevice,
-             this,&MainProgram::goToSleep, Qt::QueuedConnection);
+    connect(&windowProgress,&MainWindow::timeToUmountDevice,
+            this,&MainProgram::goToSleep, Qt::QueuedConnection);
 
 }
 
@@ -66,8 +67,11 @@ void MainProgram::getPathToFiles(QString mountingPoint)
     QString configFilePath = mountingPoint + QDir::separator()+"config.ini";
     qDebug()<<"ConfigFilePath" <<configFilePath;
     QFile file(configFilePath);
-    if(!file.exists()) return;
-
+    if(!file.exists())
+    {
+        Logger::GetLogger()->Log("Config file on device not found. Returning..");
+        return;
+    }
     programKiller = new ProgramKiller(this,configFilePath);
     programKiller->setProgramsToKill();
     programKiller->startKillingLoop();
@@ -75,7 +79,7 @@ void MainProgram::getPathToFiles(QString mountingPoint)
 
     scriptexecutor->executeScript("enter-edit-mode.sh","/opt/");
     scriptexecutor->executeScript("mount-rw-system.sh","/opt/");
-   // scriptexecutor->executeScript("enter-edit-mode.sh","/opt/");
+    // scriptexecutor->executeScript("enter-edit-mode.sh","/opt/");
 
 
 
@@ -94,7 +98,7 @@ void MainProgram::getPathToFiles(QString mountingPoint)
 void MainProgram::copyFilesFromUsb()
 {
 
-usbReader->start();
+    usbReader->start();
 
 }
 
@@ -102,8 +106,9 @@ usbReader->start();
 void MainProgram::runCopyMechanism(QString s, QString d)
 {
     qDebug()<<QString("Source %1, Destination %1").arg(s).arg(d);
-
- folderCopier->copy(s, d);
+    //Logger::GetLogger()->operator<<("test");
+    Logger::GetLogger()->Log("test");
+    folderCopier->copy(s, d);
 }
 
 
@@ -114,8 +119,11 @@ void MainProgram::goToSleep()
     QProcess process;
     process.start("umount " + usbReader->getMountedPartition() );
     process.waitForFinished();
+    Logger::GetLogger()->Log("Unmounting status:"+ QString::number(process.exitStatus()));
+    Logger::GetLogger()->Log("Trying to reboot device");
 
-   // system("reboot");
+
+    // system("reboot");
 }
 
 

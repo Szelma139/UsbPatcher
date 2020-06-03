@@ -6,6 +6,11 @@
 
 #include <QDebug>
 
+#include <Log/Logger.h>
+
+
+
+
 CopierThread::CopierThread(QObject * parent)
     :QThread()
 {
@@ -43,6 +48,7 @@ void CopierThread::copy(QString &sourceFolder, QString &destFolder)
 
     mMinimum = 0;
     mMaximum = fileSize(sourceFolder, mFileList);
+    Logger::GetLogger()->Log("Total filesize to copy" + QString::number(mMaximum));
     emit minimumChanged(mMinimum);
     emit maximumChanged(mMaximum);
 
@@ -58,7 +64,6 @@ void CopierThread::copy(QString &sourceFolder, QString &destFolder)
 QStringList CopierThread::getFolderContents(QString &sourceFolder)
 {
     QStringList fileList;
-    qDebug()<<"Czekaj basiu na mnie";
     std::function<bool(const QString&, const QString&)> folderContents;
     folderContents = [&](const QString &sourceFolder, const QString &destFolder)->bool {
         QDir sourceDir(sourceFolder);
@@ -114,6 +119,8 @@ void CopierThread::copyFiles()
         QString dstFilePath = mDestFolder + QDir::separator() + fileName;
         qDebug()<<"SourceFilePath"<<srcFilePath;
         qDebug()<<"DestFilePath"<<dstFilePath;
+        Logger::GetLogger()->Log("Source File Path: " +srcFilePath + " >> Destination File Path" + dstFilePath  );
+
         QFile srcFile(srcFilePath);
         QFile dstFile(dstFilePath);
 
@@ -137,6 +144,11 @@ void CopierThread::copyFiles()
             srcFile.close();
             dstFile.close();
             //emit +1
+            //new else below
+        }
+        else {
+
+            Logger::GetLogger()->Log( "Problem with device permissions");
         }
     }
     //emit 100%
@@ -146,9 +158,7 @@ void CopierThread::copyFiles()
     //stworz Hashmap plikow
 
 
-
-
-    qDebug()<<"Zakonczono kopiowanie i wyslano sygnal";
+    Logger::GetLogger()->Log("Finished copying files");
 }
 
 void CopierThread::run()

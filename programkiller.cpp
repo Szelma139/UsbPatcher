@@ -3,6 +3,7 @@
 #include <QProcess>
 #include <pathdetails.h>
 #include <QDebug>
+#include <Log/Logger.h>
 
 ProgramKiller::ProgramKiller(QObject * parent, QString config):
     QObject(parent)
@@ -31,6 +32,7 @@ void ProgramKiller::startKillingLoop()
     {
         for (QString program: programToKill)
         {
+
             killProgram(program);
         }
     }
@@ -38,12 +40,13 @@ void ProgramKiller::startKillingLoop()
         return;
 }
 
-void ProgramKiller::killProgram(QString  &programName)
+void ProgramKiller::killProgram(QString &programName)
 {
 
     QProcess process;
     process.start("pkill "+ programName);
     process.waitForFinished();
     qDebug()<<"Killing process"<<programName;
+    Logger::GetLogger()->Log("Trying to kill" +QString::number(process.exitStatus()));
 
 }

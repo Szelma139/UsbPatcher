@@ -3,6 +3,9 @@
 
 #include <QDebug>
 #include <QFile>
+
+#include <Log/Logger.h>
+
 MountingPoint::MountingPoint()
 {
 
@@ -56,7 +59,6 @@ QString MountingPoint::returnMountingPath(QString mountPointLine )
     int secondSpace = mountPointLine.indexOf(" ");
     mountPointLine = mountPointLine.left(secondSpace);
 
-
     qDebug()<<"Mount: " << mountPointLine;
 
 
@@ -67,7 +69,11 @@ QString MountingPoint::returnMountingPath(QString mountPointLine )
     {
         mountPointLine=mountPointLine.replace("\\040","\ ");
         qDebug()<<"Nowy" << mountPointLine;
+        Logger::GetLogger()->Log("Path to device is containing spaces. Fixing path");
+
     }
+
+    Logger::GetLogger()->Log("Mounting point found. It is " + mountPointLine);
 
     return mountPointLine;
 }

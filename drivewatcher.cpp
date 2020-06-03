@@ -6,6 +6,8 @@
 
 #include <QDebug>
 
+#include <Log/Logger.h>
+
 DriveWatcher::DriveWatcher(QObject * parent)
     :QThread()
 {
@@ -13,6 +15,8 @@ DriveWatcher::DriveWatcher(QObject * parent)
     QString path = "/dev/";
     usbDirWatcher->addPath(path);
     lastKnownListOfDrives = QStorageInfo::mountedVolumes();
+    Logger::GetLogger()->Log("Trying to mount to " + path);
+
 }
 
 
@@ -49,7 +53,7 @@ void DriveWatcher::findNewDrive()
         if (newDevice.contains("dev")) {
             qDebug()<<QString("Found new device name %1").
                       arg(newDevice);
-
+            Logger::GetLogger()->Log("USB device will be : " + newDevice);
             emit foundNewUsbDev(newDevice);
         }
 

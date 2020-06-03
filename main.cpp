@@ -5,6 +5,8 @@
 #include <QSettings>
 #include <QDebug>
 #include <parameters.h>
+#include <Log/Logger.h>
+#include <QDir>
 
 
 
@@ -13,11 +15,7 @@ void copy(QString sourcePath)
   /*  CopierThread t;
     QString destinationFolder = "/opt/pliki/pliki2/";
     QString source = sourcePath + QDir::separator() + "duzyfolder";
-
-
-
 t.copy(source,destinationFolder);
-
 */
 }
 
@@ -52,6 +50,13 @@ break;
 
 */
 
+QFile file("/home/radek/Dokumenty/Log2.txt");
+file.open(QIODevice::ReadWrite);
+QTextStream stream(&file);
+stream << "test 123";
+file.close();
+
+//Logger::GetLogger()->setPath("/home/radek/Dokumenty/");
 MainProgram m;
 //m.setFolderToCopy("duzyfolder");
 m.copyFilesFromUsb();

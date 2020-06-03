@@ -1,33 +1,40 @@
-﻿#ifndef CUSTOM_CLogger_H
-#define CUSTOM_CLogger_H
+﻿#ifndef Logger_H
+#define Logger_H
 #include <QFile>
 #include <QString>
 #include <QTextStream>
-#define LOGGER CLogger::GetLogger()
+#define LOGGER Logger::GetLogger()
 
-class CLogger
+class Logger
 {
 public:
 
     void Log(const QString &sMessage);
 
-    CLogger& operator<<(const QString &sMessage);
+    //Logger& operator<<(const QString &sMessage);
 
-	static CLogger* GetLogger();
+
+    static Logger* GetLogger();
+    void setPath(QString path);
 
 private:
 
-	CLogger();
+    Logger();
 
-    CLogger(const CLogger&){};
+    Logger(const Logger&){};
 
-    CLogger& operator=(const CLogger&){ return *this; };
+    Logger& operator=(const Logger&){ return *this; };
 
-    static const QString m_sFileName;
+    //QString m_sFileName;
 
-	static CLogger* m_pThis;
+    QString  m_sFileName;
+    static Logger* m_pThis;
 
-    static QFile m_Logfile;
-    static QTextStream stream;
+    QFile m_Logfile;
+
+    static QTextStream * stream;
+
+    QString path;
+
 };
 #endif
