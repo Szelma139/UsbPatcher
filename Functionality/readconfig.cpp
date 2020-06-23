@@ -2,7 +2,7 @@
 
 #include <QFile>
 #include <QDebug>
-#include <pathdetails.h>
+#include <Usb/pathdetails.h>
 
 #include <QDir>
 

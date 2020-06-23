@@ -1,7 +1,7 @@
 ﻿#include "programkiller.h"
 
 #include <QProcess>
-#include <pathdetails.h>
+#include <Usb/pathdetails.h>
 #include <QDebug>
 #include <Log/Logger.h>
 

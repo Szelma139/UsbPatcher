@@ -1,15 +1,17 @@
 ﻿#include "mainprogram.h"
 
-#include <usbreader.h>
-#include <copierthread.h>
+#include "Usb/usbreader.h"
+#include <Functionality/copierthread.h>
 #include <QDebug>
-#include <pathdetails.h>
+#include <Usb/pathdetails.h>
 #include <unistd.h>
-#include <readconfig.h>
-#include <programkiller.h>
+#include <Functionality/readconfig.h>
+#include <Functionality/programkiller.h>
 #include <QProcess>
-#include <scriptexecutor.h>
+#include <Functionality/scriptexecutor.h>
 #include <Log/Logger.h>
+#include <Screens/progressbarwindow.h>
+#include <Screens/versionwindow.h>
 
 
 
@@ -19,6 +21,8 @@ MainProgram::MainProgram()
     folderCopier = new CopierThread(this);
     reader = new ReadConfig(this);
     scriptexecutor= new ScriptExecutor(this);
+    versionWindow = new VersionWindow;
+
 
     connect(usbReader, &UsbReader::returnPath,
             this, &MainProgram::getPathToFiles);
@@ -41,6 +45,9 @@ MainProgram::MainProgram()
     connect(&windowProgress,&MainWindow::timeToUmountDevice,
             this,&MainProgram::goToSleep, Qt::QueuedConnection);
 
+
+    connect(this,&MainProgram::gotPath,this,&MainProgram::showVersionNumber);
+
 }
 
 QString MainProgram::getFolderToCopy() const
@@ -62,16 +69,27 @@ void MainProgram::getPathToFiles(QString mountingPoint)
 {
 
     path = mountingPoint;
-    this->showWindow();
+    //this->showWindow();
 
     QString configFilePath = mountingPoint + QDir::separator()+"config.ini";
     qDebug()<<"ConfigFilePath" <<configFilePath;
+    qDebug()<<"PATH"<<path;
     QFile file(configFilePath);
     if(!file.exists())
     {
-        Logger::GetLogger()->Log("Config file on device not found. Returning..");
+       // Logger::GetLogger()->Log("Config file on device not found. Returning..");
         return;
     }
+
+
+
+    emit gotPath(path);
+
+
+
+
+    //ret ver
+/*
     programKiller = new ProgramKiller(this,configFilePath);
     programKiller->setProgramsToKill();
     programKiller->startKillingLoop();
@@ -92,19 +110,26 @@ void MainProgram::getPathToFiles(QString mountingPoint)
     ///
 
     programKiller->deleteLater();
+*/
 }
 
 
-void MainProgram::copyFilesFromUsb()
-{
+
+void MainProgram::showVersionNumber(QString path){
+
+    versionWindow->setConfigFilePath(path);
+    versionWindow->initLabels();
+    versionWindow->show();
+}
+
+void MainProgram::copyFilesFromUsb(){
 
     usbReader->start();
 
 }
 
 
-void MainProgram::runCopyMechanism(QString s, QString d)
-{
+void MainProgram::runCopyMechanism(QString s, QString d){
     qDebug()<<QString("Source %1, Destination %1").arg(s).arg(d);
     //Logger::GetLogger()->operator<<("test");
     Logger::GetLogger()->Log("test");

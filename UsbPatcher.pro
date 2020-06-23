@@ -19,20 +19,25 @@ DEFINES += QT_DEPRECATED_WARNINGS QT_DISABLE_DEPRECATED_BEFORE
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        Functionality/copyupdate.cpp \
+        Functionality/driveswitcher.cpp \
         Log/Logger.cpp \
-        copierthread.cpp \
-        drivewatcher.cpp \
-        filecopier.cpp \
-        filesmanage.cpp \
+        Screens/progressbarwindow.cpp \
+        Screens/versionwindow.cpp \
+        Functionality/copierthread.cpp \
+        Usb/drivewatcher.cpp \
+        Functionality/filecopier.cpp \
+        Usb/filesmanage.cpp \
         main.cpp \
         mainprogram.cpp \
         mainwindow.cpp \
-        mountingpoint.cpp \
-        pathdetails.cpp \
-        programkiller.cpp \
-        readconfig.cpp \
-        scriptexecutor.cpp \
-        usbreader.cpp
+        Usb/mountingpoint.cpp \
+        Usb/pathdetails.cpp \
+        Functionality/programkiller.cpp \
+        Functionality/readconfig.cpp \
+        Functionality/scriptexecutor.cpp \
+        Usb/usbreader.cpp \
+        Functionality/versionchecker.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -41,20 +46,28 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 
 HEADERS += \
+    Constants/Constants.h \
+    Functionality/copyupdate.h \
+    Functionality/driveswitcher.h \
     Log/Logger.h \
-    copierthread.h \
-    drivewatcher.h \
-    filecopier.h \
-    filesmanage.h \
+    Screens/progressbarwindow.h \
+    Screens/versionwindow.h \
+    Functionality/copierthread.h \
+    Usb/drivewatcher.h \
+    Functionality/filecopier.h \
+    Usb/filesmanage.h \
     mainprogram.h \
     mainwindow.h \
-    mountingpoint.h \
-    parameters.h \
-    pathdetails.h \
-    programkiller.h \
-    readconfig.h \
-    scriptexecutor.h \
-    usbreader.h
+    Usb/mountingpoint.h \
+    Usb/parameters.h \
+    Usb/pathdetails.h \
+    Functionality/programkiller.h \
+    Functionality/readconfig.h \
+    Functionality/scriptexecutor.h \
+    Usb/usbreader.h \
+    Functionality/versionchecker.h
 
 FORMS += \
+    Screens/progressbarwindow.ui \
+    Screens/versionwindow.ui \
     mainwindow.ui

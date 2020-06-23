@@ -5,8 +5,8 @@
 
 
 #include <mainwindow.h>
-#include <parameters.h>
-
+#include <Usb/parameters.h>
+#include <Screens/versionwindow.h>
 
 
 class ReadConfig;
@@ -39,6 +39,7 @@ private slots:
 
 
 
+
 private:
     MainWindow windowProgress;
 
@@ -50,9 +51,15 @@ private:
     ReadConfig * reader;
     ProgramKiller * programKiller;
     ScriptExecutor * scriptexecutor;
+    VersionWindow * versionWindow;
 
 public slots:
     void goToSleep();
+    void showVersionNumber(QString); //string path usb
+
+
+signals:
+    void gotPath(QString);
 };
 
 #endif // MAINPROGRAM_H

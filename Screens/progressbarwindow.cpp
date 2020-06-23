@@ -1,5 +1,5 @@
-﻿#include "mainwindow.h"
-#include "ui_mainwindow.h"
+﻿#include "progressbarwindow.h"
+#include "ui_progressbarwindow.h"
 
 #include <QDebug>
 
@@ -9,9 +9,9 @@
 #include <QMessageBox>
 #include <unistd.h>
 
-MainWindow::MainWindow(QWidget *parent) :
+ProgressBarWindow::ProgressBarWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::ProgressBarWindow)
 {
 
     ui->setupUi(this);
@@ -19,27 +19,27 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 
-void MainWindow::setProgressBarValue(double value)
+void ProgressBarWindow::setProgressBarValue(double value)
 {
     ui->progressBar->setValue(value);
 }
-void MainWindow::setProgressBarMin(double min)
+void ProgressBarWindow::setProgressBarMin(double min)
 {
 
     ui->progressBar->setMinimum(min);
 }
-void MainWindow::setProgressBarMax(double max)
+void ProgressBarWindow::setProgressBarMax(double max)
 {
     ui->progressBar->setMaximum(max);
 }
 
-MainWindow::~MainWindow()
+ProgressBarWindow::~ProgressBarWindow()
 {
     delete ui;
 }
 
 
-void MainWindow::warnAndReboot()
+void ProgressBarWindow::warnAndReboot()
 {
     ui->progressBar->setValue(ui->progressBar->maximum());
     QMessageBox msg;

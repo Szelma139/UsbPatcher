@@ -1,10 +1,10 @@
 ﻿#include <mainwindow.h>
 #include <QApplication>
-#include <filesmanage.h>
+#include <Usb/filesmanage.h>
 #include <mainprogram.h>
 #include <QSettings>
 #include <QDebug>
-#include <parameters.h>
+#include <Usb/parameters.h>
 #include <Log/Logger.h>
 #include <QDir>
 
@@ -50,11 +50,13 @@ break;
 
 */
 
+/*
 QFile file("/home/radek/Dokumenty/Log2.txt");
 file.open(QIODevice::ReadWrite);
 QTextStream stream(&file);
 stream << "test 123";
 file.close();
+*/
 
 //Logger::GetLogger()->setPath("/home/radek/Dokumenty/");
 MainProgram m;
