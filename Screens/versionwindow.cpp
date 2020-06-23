@@ -13,14 +13,12 @@ VersionWindow::VersionWindow(QWidget *parent) :
     ui->setupUi(this);
     v=new VersionChecker;
 
-
-
 }
 
 
 void VersionWindow::initLabels(){
 
-
+    qDebug()<<"Init labels " << 1;
     installedVncVersion = v->returVersion(Path::installedVnc);
     USBVncVersion  = v->returVersion(configFilePath +Path::USBDefaultVnc);           //SOFTWARE/hybryda/version.ini
     installedHybrydaVersion = v->returVersion(Path::installedHybryda);
@@ -38,16 +36,16 @@ void VersionWindow::initLabels(){
     hybrydaCopyUpdate = new CopyUpdate(Path::installedHybryda);
     vncCopyUpdate = new CopyUpdate(Path::installedVnc);
 
+        connect(ui->buttonRemoveVnc, &QPushButton::clicked, vncCopyUpdate,&CopyUpdate::remove);
+        connect(ui->buttonRestoreVnc, &QPushButton::clicked, vncCopyUpdate,&CopyUpdate::restore);
+        connect(ui->buttonBackupVnc, &QPushButton::clicked, vncCopyUpdate, &CopyUpdate::backup);
+        connect(ui->buttonUpdateVnc, &QPushButton::clicked, vncCopyUpdate, &CopyUpdate::update);
 
-    connect(ui->buttonRemoveVnc,&QPushButton::clicked,vncCopyUpdate,&CopyUpdate::remove);
-    connect(ui->buttonRestoreVnc,&QPushButton::clicked,vncCopyUpdate,&CopyUpdate::restore);
-    connect(ui->buttonUpdateVnc,&QPushButton::clicked,vncCopyUpdate,&CopyUpdate::update);
-    connect(ui->buttonBackupVnc,&QPushButton::clicked,vncCopyUpdate,&CopyUpdate::backup);
-
-    connect(ui->buttonBackupHybryda, &QPushButton::clicked, hybrydaCopyUpdate,&CopyUpdate::backup);
-    connect(ui->buttonRemoveHybryda, &QPushButton::clicked, hybrydaCopyUpdate,&CopyUpdate::remove);
-    connect(ui->buttonUpdateHybryda, &QPushButton::clicked, hybrydaCopyUpdate, &CopyUpdate::update);
-    connect(ui->buttonResotreHybryda,&QPushButton::clicked, hybrydaCopyUpdate, &CopyUpdate::restore);
+        connect(ui->buttonBackupHybryda, &QPushButton::clicked, hybrydaCopyUpdate, &CopyUpdate::backup);
+        connect(ui->buttonRemoveHybryda, &QPushButton::clicked, hybrydaCopyUpdate, &CopyUpdate::remove);
+        connect(ui->buttonUpdateHybryda, &QPushButton::clicked, hybrydaCopyUpdate, &CopyUpdate::update);
+        connect(ui->buttonResotreHybryda,&QPushButton::clicked, hybrydaCopyUpdate, &CopyUpdate::restore);
+   ;
 }
 
 
@@ -65,3 +63,4 @@ void VersionWindow::setConfigFilePath(const QString &value)
 {
     configFilePath = value;
 }
+

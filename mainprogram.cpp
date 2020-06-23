@@ -46,7 +46,8 @@ MainProgram::MainProgram()
             this,&MainProgram::goToSleep, Qt::QueuedConnection);
 
 
-    connect(this,&MainProgram::gotPath,this,&MainProgram::showVersionNumber);
+    connect(this,&MainProgram::gotPath,this,
+            &MainProgram::showVersionNumber, Qt::QueuedConnection);
 
 }
 
