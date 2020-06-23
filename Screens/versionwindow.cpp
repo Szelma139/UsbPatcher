@@ -39,7 +39,15 @@ void VersionWindow::initLabels(){
     vncCopyUpdate = new CopyUpdate(Path::installedVnc);
 
 
-    //connect(ui->buttonBackupVnc,&QPushButton::clicked,vncCopyUpdate,&CopyUpdate::)
+    connect(ui->buttonRemoveVnc,&QPushButton::clicked,vncCopyUpdate,&CopyUpdate::remove);
+    connect(ui->buttonRestoreVnc,&QPushButton::clicked,vncCopyUpdate,&CopyUpdate::restore);
+    connect(ui->buttonUpdateVnc,&QPushButton::clicked,vncCopyUpdate,&CopyUpdate::update);
+    connect(ui->buttonBackupVnc,&QPushButton::clicked,vncCopyUpdate,&CopyUpdate::backup);
+
+    connect(ui->buttonBackupHybryda, &QPushButton::clicked, hybrydaCopyUpdate,&CopyUpdate::backup);
+    connect(ui->buttonRemoveHybryda, &QPushButton::clicked, hybrydaCopyUpdate,&CopyUpdate::remove);
+    connect(ui->buttonUpdateHybryda, &QPushButton::clicked, hybrydaCopyUpdate, &CopyUpdate::update);
+    connect(ui->buttonResotreHybryda,&QPushButton::clicked, hybrydaCopyUpdate, &CopyUpdate::restore);
 }
 
 

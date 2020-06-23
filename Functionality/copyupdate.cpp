@@ -8,9 +8,9 @@ destFolder = dirContent;
 qDebug()<<"SF:"<<sourceFolder;
 }
 
-void CopyUpdate::copy()
+void CopyUpdate::backup()
 {
-    qDebug()<<"copy";
+    qDebug()<<"backup";
 }
 
 void CopyUpdate::update()

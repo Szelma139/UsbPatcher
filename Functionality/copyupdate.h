@@ -13,7 +13,7 @@ public:
 
 public slots:
 
-    void copy();
+    void backup();
     void update();
     void remove();
     void restore();
