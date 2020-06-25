@@ -6,6 +6,7 @@
 CopyUpdate::CopyUpdate(QString dirContent, QString source,CopierThread * copier)
 {
     this->copier = copier;
+
 destFolder = dirContent;
 qDebug()<<"SF:"<<sourceFolder;
 }

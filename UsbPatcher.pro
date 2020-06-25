@@ -20,7 +20,6 @@ DEFINES += QT_DEPRECATED_WARNINGS QT_DISABLE_DEPRECATED_BEFORE
 
 SOURCES += \
         Functionality/copyupdate.cpp \
-        Functionality/driveswitcher.cpp \
         Log/Logger.cpp \
         Screens/progressbarwindow.cpp \
         Screens/versionwindow.cpp \

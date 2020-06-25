@@ -48,9 +48,9 @@ void VersionWindow::initLabels(QString source){
     ui->labelVncInstalled->setText(installedVncVersion);
 
     //connect()
-
-    hybrydaCopyUpdate = new CopyUpdate(Path::installedHybryda,source);
-    vncCopyUpdate = new CopyUpdate(Path::installedVnc, source);
+                                            //dest, source, folderCopier
+    hybrydaCopyUpdate = new CopyUpdate(Path::installedHybryda,source,folderCopier);
+    vncCopyUpdate = new CopyUpdate(Path::installedVnc, source, folderCopier);
 
     connect(ui->buttonRemoveVnc, &QPushButton::clicked, vncCopyUpdate,&CopyUpdate::remove, Qt::UniqueConnection);
     connect(ui->buttonRestoreVnc, &QPushButton::clicked, vncCopyUpdate,&CopyUpdate::restore, Qt::UniqueConnection);

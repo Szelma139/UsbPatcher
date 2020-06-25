@@ -22,7 +22,7 @@ MainProgram::MainProgram()
 {
     usbReader= new UsbReader(this);
     reader = new ReadConfig(this);
-    scriptexecutor= new ScriptExecutor(this);
+   // scriptexecutor= new ScriptExecutor(this);
     versionWindow = new VersionWindow;
     usbNotifications = new UsbNotifications(this);
 
@@ -63,9 +63,6 @@ void MainProgram::showWindow()
 void MainProgram::getPathToFiles(QString mountingPoint)
 {
 
-    path = mountingPoint;
-    //this->showWindow();
-
     QString configFilePath = mountingPoint + QDir::separator()+"config.ini";
 
     QFile file(configFilePath);
@@ -77,7 +74,7 @@ void MainProgram::getPathToFiles(QString mountingPoint)
 
     usleep(5000);
 
-    emit gotPath(path);
+    emit gotPath(mountingPoint);
 
 
 
@@ -118,12 +115,6 @@ void MainProgram::showVersionNumber(QString path){
 
 }
 
-void MainProgram::copyFilesFromUsb(){
-
-
-}
-
-
 void MainProgram::hideAndClose(){
     versionWindow->hide();
     windowProgress.close();
@@ -132,7 +123,6 @@ void MainProgram::hideAndClose(){
 
 void MainProgram::runCopyMechanism(QString s, QString d){
     qDebug()<<QString("Source %1, Destination %1").arg(s).arg(d);
-    //Logger::GetLogger()->operator<<("test");
     Logger::GetLogger()->Log("test");
     folderCopier->copy(s, d);
 }
