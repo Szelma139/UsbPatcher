@@ -5,10 +5,10 @@
 
 
 #include <mainwindow.h>
-#include <Usb/parameters.h>
 #include <Screens/versionwindow.h>
 
 
+class UsbNotifications;
 class ReadConfig;
 class CopierThread;
 class UsbReader;
@@ -52,10 +52,13 @@ private:
     ProgramKiller * programKiller;
     ScriptExecutor * scriptexecutor;
     VersionWindow * versionWindow;
+    UsbNotifications * usbNotifications;
+    int test = 0;
 
 public slots:
     void goToSleep();
     void showVersionNumber(QString); //string path usb
+    void hideAndClose();
 
 
 signals:

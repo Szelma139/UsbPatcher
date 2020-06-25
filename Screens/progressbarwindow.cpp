@@ -16,6 +16,9 @@ ProgressBarWindow::ProgressBarWindow(QWidget *parent) :
 
     ui->setupUi(this);
 
+
+
+
 }
 
 
@@ -49,6 +52,7 @@ void ProgressBarWindow::warnAndReboot()
     usleep(8000);
 
 
+    this->close();
     emit timeToUmountDevice();
     //emit signal umount and system reboot
     //odmontuj urzadzenie

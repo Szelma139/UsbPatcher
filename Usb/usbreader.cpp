@@ -8,21 +8,33 @@
 #include <unistd.h>
 #include <QDebug>
 
-UsbReader::UsbReader(QObject * parent, QString path):
-    QThread()
+
+UsbReader::UsbReader(QObject * parent):
+    QObject(parent)
+
 {
-    usbDirWatcher = new QFileSystemWatcher(this);
-    usbDirWatcher->addPath(path);
-    lastKnownListOfDrives = QStorageInfo::mountedVolumes();
-    w = new MainWindow;
 
 }
 
-void UsbReader::run()
-{
-    connect(usbDirWatcher, SIGNAL(directoryChanged(QString)),
-            this,SLOT(getFolderChanges(QString)),Qt::UniqueConnection);
 
+void UsbReader::fetchMountingPoint(){
+
+findNewDrive();
+
+}
+
+QByteArray UsbReader::getLastKnownElement(QList<QStorageInfo>info)
+{
+
+    if (!info.isEmpty())
+        return info.last().device();
+}
+
+void UsbReader::showListElements(QList<QStorageInfo> list){
+
+    for (QStorageInfo info:list){
+        qDebug()<<info.name()<<info.device()<<info.displayName();
+    }
 }
 
 QString UsbReader::getMountedPartition() const
@@ -35,57 +47,28 @@ void UsbReader::setMountedPartition(const QString &value)
     mountedPartition = value;
 }
 
-
-
-void UsbReader::getFolderChanges(QString path)
-{
-    QTimer::singleShot(1500,this, SLOT(findNewDrive()));
-}
-
-
-void UsbReader::showListElements(QList<QStorageInfo> info){
-    for (QStorageInfo element:info)
-    {
-
-        //     qDebug()<<"Name: "<<element.name()<<
-        //             "Device " <<QString::fromStdString(element.device().toStdString());
-    }
-}
-
-
-QByteArray UsbReader::getLastKnownElement(QList<QStorageInfo>info)
-{
-
-    if (!info.isEmpty())
-        return info.last().device();
-}
-
 void UsbReader::findNewDrive()
 {
-    QList<QStorageInfo> newListOfKnownDrives = QStorageInfo::mountedVolumes();
-    if (newListOfKnownDrives.length()>lastKnownListOfDrives.length())
-    {
-        showListElements(newListOfKnownDrives);
+    sleep(8);
+    QList<QStorageInfo > newListOfKnownDrives = QStorageInfo::mountedVolumes();
+
+
+    showListElements(newListOfKnownDrives);
 
         QString newDevice = getLastKnownElement(newListOfKnownDrives);
+        QStringList listOfPossibleDevices = {"dev/sda1","dev/sda2","dev/sda3",
+                                             "dev/sdb1", "dev/sdb2","dev/sdb3",
+                                             "dev/sdc1", "dev/sdc2", "dev/sdc3"};
         if (newDevice.contains("dev")) {
             qDebug()<<QString("Found new device name %1").
                       arg(newDevice);
             findMountingPoint(newDevice);
         }
 
-    }
-
 }
 
 
-void UsbReader::getListOfLines(QStringList list)
-{
-    for (QString element: list)
-    {
-        qDebug()<< QString(" Element listy: %1 ").arg(element);
-    }
-}
+
 
 void UsbReader::findMountingPoint(QString partitionName)
 {
@@ -128,12 +111,6 @@ void UsbReader::findMountingPoint(QString partitionName)
     qDebug()<<"M" << fullMountingPoint;
 
 
-
-
-
-
-
-
     while (fullMountingPoint.contains("\\"))
     {
         fullMountingPoint=fullMountingPoint.replace("\\040","\ ");
@@ -145,38 +122,7 @@ void UsbReader::findMountingPoint(QString partitionName)
 
     emit returnPath(fullMountingPoint);
 
-    /*
-    //8QString pathToCopyFiles;
-    QDir dir(fullMountingPoint);
-    qDebug()<< "czytany dir: "<< fullMountingPoint;
-    if (dir.exists() && dir.isReadable())
-    {
-        qDebug()<< " Mamy go";
-        QFile file(fullMountingPoint+"/Piersi/drugaPiersAgaty.txt");
-        pathToCopyFiles = fullMountingPoint+"/Piersi/drugaPiersAgaty.txt";
-        if (!file.exists()){
-            qDebug()<<"Pliku nie ma mistrzu";
-        }
-        else qDebug("znaleziono piers");
 
-    }
-    else
-        qDebug()<<"Cos chyba jest nie tak";
-
-QFile file2(pathToCopyFiles);
-if (file2.exists()) qDebug()<<"Wszystko w porzadku. Plik istnieje";
-
-    QString sourcePath = pathToCopyFiles;
-    QString destFilePath = "/opt/pliki/pliki2/dupa.txt";
-
-    if (QFile::exists(destFilePath)){
-        QFile::remove(destFilePath);
-    }
-       if (QFile::copy(sourcePath, destFilePath))
-           qDebug()<<"!!!!!!!!!!!!!!!!!!!!!!!SUKCES!!!!!!!!!!!!!";
-
-
-*/
 }
 
 

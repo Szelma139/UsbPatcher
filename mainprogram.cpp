@@ -12,32 +12,27 @@
 #include <Log/Logger.h>
 #include <Screens/progressbarwindow.h>
 #include <Screens/versionwindow.h>
+#include <Usb/usbnotifications.h>
+#include <QDir>
+
 
 
 
 MainProgram::MainProgram()
 {
     usbReader= new UsbReader(this);
-    folderCopier = new CopierThread(this);
     reader = new ReadConfig(this);
     scriptexecutor= new ScriptExecutor(this);
     versionWindow = new VersionWindow;
+    usbNotifications = new UsbNotifications(this);
 
 
     connect(usbReader, &UsbReader::returnPath,
-            this, &MainProgram::getPathToFiles);
+          this, &MainProgram::getPathToFiles, Qt::UniqueConnection);
 
-    connect(folderCopier, &CopierThread::minimumChanged,
-            &windowProgress, &MainWindow::setProgressBarMin, Qt::QueuedConnection);
+    connect(usbNotifications,&UsbNotifications::insertedUsbDevice, usbReader,&UsbReader::fetchMountingPoint);
 
-    connect(folderCopier, &CopierThread::maximumChanged,
-            &windowProgress, &MainWindow::setProgressBarMax, Qt::QueuedConnection);
-
-    connect(folderCopier, &CopierThread::progressChanged,
-            &windowProgress, &MainWindow::setProgressBarValue, Qt::QueuedConnection);
-
-    connect(folderCopier, &CopierThread::finishedUpdatingFiles,
-            &windowProgress, &MainWindow::warnAndReboot, Qt::QueuedConnection);
+    connect(usbNotifications, &UsbNotifications::removedUsbDevice,this, &MainProgram::hideAndClose);
 
     connect(reader, &ReadConfig::copyPathsSet,
             this, &MainProgram::runCopyMechanism, Qt::QueuedConnection);
@@ -45,9 +40,8 @@ MainProgram::MainProgram()
     connect(&windowProgress,&MainWindow::timeToUmountDevice,
             this,&MainProgram::goToSleep, Qt::QueuedConnection);
 
-
     connect(this,&MainProgram::gotPath,this,
-            &MainProgram::showVersionNumber, Qt::QueuedConnection);
+            &MainProgram::showVersionNumber, Qt::UniqueConnection);
 
 }
 
@@ -73,8 +67,7 @@ void MainProgram::getPathToFiles(QString mountingPoint)
     //this->showWindow();
 
     QString configFilePath = mountingPoint + QDir::separator()+"config.ini";
-    qDebug()<<"ConfigFilePath" <<configFilePath;
-    qDebug()<<"PATH"<<path;
+
     QFile file(configFilePath);
     if(!file.exists())
     {
@@ -82,7 +75,7 @@ void MainProgram::getPathToFiles(QString mountingPoint)
         return;
     }
 
-
+    usleep(5000);
 
     emit gotPath(path);
 
@@ -118,17 +111,24 @@ void MainProgram::getPathToFiles(QString mountingPoint)
 
 void MainProgram::showVersionNumber(QString path){
 
-    versionWindow->setConfigFilePath(path);
-    versionWindow->initLabels();
+    //show version window
+    versionWindow->initLabels(path); //usb Device path
     versionWindow->show();
+
+
 }
 
 void MainProgram::copyFilesFromUsb(){
 
-    usbReader->start();
 
 }
 
+
+void MainProgram::hideAndClose(){
+    versionWindow->hide();
+    windowProgress.close();
+
+}
 
 void MainProgram::runCopyMechanism(QString s, QString d){
     qDebug()<<QString("Source %1, Destination %1").arg(s).arg(d);
@@ -142,11 +142,11 @@ void MainProgram::runCopyMechanism(QString s, QString d){
 void MainProgram::goToSleep()
 {
 
-    QProcess process;
-    process.start("umount " + usbReader->getMountedPartition() );
-    process.waitForFinished();
-    Logger::GetLogger()->Log("Unmounting status:"+ QString::number(process.exitStatus()));
-    Logger::GetLogger()->Log("Trying to reboot device");
+    //QProcess process;
+    //process.start("umount " + usbReader->getMountedPartition() );
+    //process.waitForFinished();
+    //Logger::GetLogger()->Log("Unmounting status:"+ QString::number(process.exitStatus()));
+    //Logger::GetLogger()->Log("Trying to reboot device");
 
 
     // system("reboot");

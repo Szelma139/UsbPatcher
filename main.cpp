@@ -1,10 +1,8 @@
 ﻿#include <mainwindow.h>
 #include <QApplication>
-#include <Usb/filesmanage.h>
 #include <mainprogram.h>
 #include <QSettings>
 #include <QDebug>
-#include <Usb/parameters.h>
 #include <Log/Logger.h>
 #include <QDir>
 
@@ -61,7 +59,6 @@ file.close();
 //Logger::GetLogger()->setPath("/home/radek/Dokumenty/");
 MainProgram m;
 //m.setFolderToCopy("duzyfolder");
-m.copyFilesFromUsb();
 return a.exec();
 }
 

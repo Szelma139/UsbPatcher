@@ -25,15 +25,12 @@ SOURCES += \
         Screens/progressbarwindow.cpp \
         Screens/versionwindow.cpp \
         Functionality/copierthread.cpp \
-        Usb/drivewatcher.cpp \
         Functionality/filecopier.cpp \
-        Usb/filesmanage.cpp \
+        Usb/pathdetails.cpp \
+        Usb/usbnotifications.cpp \
         main.cpp \
         mainprogram.cpp \
         mainwindow.cpp \
-        Usb/mountingpoint.cpp \
-        Usb/pathdetails.cpp \
-        Functionality/programkiller.cpp \
         Functionality/readconfig.cpp \
         Functionality/scriptexecutor.cpp \
         Usb/usbreader.cpp \
@@ -53,14 +50,12 @@ HEADERS += \
     Screens/progressbarwindow.h \
     Screens/versionwindow.h \
     Functionality/copierthread.h \
-    Usb/drivewatcher.h \
     Functionality/filecopier.h \
-    Usb/filesmanage.h \
+    Usb/pathdetails.h \
+    Usb/usbnotifications.h \
     mainprogram.h \
     mainwindow.h \
     Usb/mountingpoint.h \
-    Usb/parameters.h \
-    Usb/pathdetails.h \
     Functionality/programkiller.h \
     Functionality/readconfig.h \
     Functionality/scriptexecutor.h \
@@ -71,3 +66,11 @@ FORMS += \
     Screens/progressbarwindow.ui \
     Screens/versionwindow.ui \
     mainwindow.ui
+
+
+
+
+include(QtUsb/src/usb/files.pri)
+
+
+

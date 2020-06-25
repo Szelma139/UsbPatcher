@@ -94,4 +94,3 @@ void PathDetails::createConfigFile(QString configPath)
 }
 
 
-

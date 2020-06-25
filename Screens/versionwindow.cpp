@@ -3,7 +3,8 @@
 #include <Constants/Constants.h>
 #include <Functionality/versionchecker.h>
 #include <Functionality/copyupdate.h>
-
+#include <Functionality/copierthread.h>
+#include <Screens/progressbarwindow.h>
 #include <QDebug>
 
 VersionWindow::VersionWindow(QWidget *parent) :
@@ -12,11 +13,26 @@ VersionWindow::VersionWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     v=new VersionChecker;
+    folderCopier = new CopierThread(this);
+    windowProgress = new ProgressBarWindow(this);
+
+    connect(folderCopier, &CopierThread::minimumChanged,
+            windowProgress, &ProgressBarWindow::setProgressBarMin, Qt::QueuedConnection);
+
+    connect(folderCopier, &CopierThread::maximumChanged,
+            windowProgress, &ProgressBarWindow::setProgressBarMax, Qt::QueuedConnection);
+
+    connect(folderCopier, &CopierThread::progressChanged,
+            windowProgress, &ProgressBarWindow::setProgressBarValue, Qt::QueuedConnection);
+
+    connect(folderCopier, &CopierThread::finishedUpdatingFiles,
+            windowProgress, &ProgressBarWindow::warnAndReboot, Qt::QueuedConnection);
+
 
 }
 
 
-void VersionWindow::initLabels(){
+void VersionWindow::initLabels(QString source){
 
     qDebug()<<"Init labels " << 1;
     installedVncVersion = v->returVersion(Path::installedVnc);
@@ -33,19 +49,19 @@ void VersionWindow::initLabels(){
 
     //connect()
 
-    hybrydaCopyUpdate = new CopyUpdate(Path::installedHybryda);
-    vncCopyUpdate = new CopyUpdate(Path::installedVnc);
+    hybrydaCopyUpdate = new CopyUpdate(Path::installedHybryda,source);
+    vncCopyUpdate = new CopyUpdate(Path::installedVnc, source);
 
-        connect(ui->buttonRemoveVnc, &QPushButton::clicked, vncCopyUpdate,&CopyUpdate::remove);
-        connect(ui->buttonRestoreVnc, &QPushButton::clicked, vncCopyUpdate,&CopyUpdate::restore);
-        connect(ui->buttonBackupVnc, &QPushButton::clicked, vncCopyUpdate, &CopyUpdate::backup);
-        connect(ui->buttonUpdateVnc, &QPushButton::clicked, vncCopyUpdate, &CopyUpdate::update);
+    connect(ui->buttonRemoveVnc, &QPushButton::clicked, vncCopyUpdate,&CopyUpdate::remove, Qt::UniqueConnection);
+    connect(ui->buttonRestoreVnc, &QPushButton::clicked, vncCopyUpdate,&CopyUpdate::restore, Qt::UniqueConnection);
+    connect(ui->buttonBackupVnc, &QPushButton::clicked, vncCopyUpdate, &CopyUpdate::backup, Qt::UniqueConnection);
+    connect(ui->buttonUpdateVnc, &QPushButton::clicked, vncCopyUpdate, &CopyUpdate::update, Qt::UniqueConnection);
 
-        connect(ui->buttonBackupHybryda, &QPushButton::clicked, hybrydaCopyUpdate, &CopyUpdate::backup);
-        connect(ui->buttonRemoveHybryda, &QPushButton::clicked, hybrydaCopyUpdate, &CopyUpdate::remove);
-        connect(ui->buttonUpdateHybryda, &QPushButton::clicked, hybrydaCopyUpdate, &CopyUpdate::update);
-        connect(ui->buttonResotreHybryda,&QPushButton::clicked, hybrydaCopyUpdate, &CopyUpdate::restore);
-   ;
+    connect(ui->buttonBackupHybryda, &QPushButton::clicked, hybrydaCopyUpdate, &CopyUpdate::backup, Qt::UniqueConnection);
+    connect(ui->buttonRemoveHybryda, &QPushButton::clicked, hybrydaCopyUpdate, &CopyUpdate::remove, Qt::UniqueConnection);
+    connect(ui->buttonUpdateHybryda, &QPushButton::clicked, hybrydaCopyUpdate, &CopyUpdate::update, Qt::UniqueConnection);
+    connect(ui->buttonResotreHybryda,&QPushButton::clicked, hybrydaCopyUpdate, &CopyUpdate::restore, Qt::UniqueConnection);
+
 }
 
 
@@ -59,8 +75,9 @@ QString VersionWindow::getConfigFilePath() const
     return configFilePath;
 }
 
-void VersionWindow::setConfigFilePath(const QString &value)
+void VersionWindow::setConfigFilePath(const QString value)
 {
     configFilePath = value;
+
 }
 

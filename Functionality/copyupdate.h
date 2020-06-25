@@ -3,13 +3,17 @@
 
 #include <QObject>
 
+class CopierThread;
 class CopyUpdate: public QObject
 {
     Q_OBJECT
 public:
-    CopyUpdate(QString dirContent);
+    CopyUpdate(QString dirContent, QString source, CopierThread * copier);
     QString getSourceFolder() const;
     void setSourceFolder(const QString &value);
+
+    QString getDestFolder() const;
+    void setDestFolder(const QString &value);
 
 public slots:
 
@@ -20,9 +24,12 @@ public slots:
 
 
 
+
 private:
     QString sourceFolder;
     QString destFolder;
+    CopierThread * copier;
+
 };
 
 #endif // COPYUPDATE_H
